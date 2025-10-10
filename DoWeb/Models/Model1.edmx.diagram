@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7f9f2de60c2f4cd2802c6a63c8796fb0" Name="Diagram1">
+        <EntityTypeShape EntityType="ProjectDBModel.CHUKYNANGSUAT" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDBModel.KHUONEP" Width="1.5" PointX="4.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDBModel.MayKhuon" Width="1.5" PointX="6.875" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDBModel.NGUYENLIEU" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDBModel.PHEPHAM" Width="1.5" PointX="2.625" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDBModel.THOIGIANLENKHUON" Width="1.5" PointX="6.875" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDBModel.TRONGLUONG" Width="1.5" PointX="9.5" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_CHUKYNANGSUAT" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_MAYKHUON" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_NGUYENLIEU" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_PHEPHAM" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_THOIGIAN" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_TRONGLUONG" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_KHUON" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

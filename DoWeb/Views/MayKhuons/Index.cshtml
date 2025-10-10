@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Tìm máy";
+}
+
+
+<div class="form-group position-relative" style="max-width: 400px;">
+    <input type="text" id="searchInput" class="form-control" placeholder="Nhập tên máy khuôn..." autocomplete="off" />
+    <ul id="searchResults" class="list-group position-absolute w-100"
+        style="z-index:1000; display:none; max-height:250px; overflow-y:auto;">
+    </ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    $("#searchInput").on("keyup", function () {
+        var searchValue = $(this).val();
+
+        if (searchValue.length < 1) {
+            $("#searchResults").hide();
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("SearchMayKhuon", "MayKhuons")',
+            type: 'GET',
+            data: { searchString: searchValue },
+            success: function (data) {
+                var $list = $("#searchResults");
+                $list.empty();
+
+                if (data.length > 0) {
+                    $.each(data, function (i, item) {
+                        $list.append('<li class="list-group-item list-group-item-action">' + item.TenMayKhuon + '</li>');
+                    });
+                    $list.show();
+                } else {
+                    $list.hide();
+                }
+            }
+        });
+    });
+
+    // Khi chọn 1 mục trong dropdown
+    $(document).on("click", "#searchResults li", function () {
+        $("#searchInput").val($(this).text());
+        $("#searchResults").hide();
+    });
+
+    // Ẩn dropdown khi click ra ngoài
+    $(document).on("click", function (e) {
+        if (!$(e.target).closest('#searchInput').length) {
+            $("#searchResults").hide();
+        }
+    });
+});
+</script>
