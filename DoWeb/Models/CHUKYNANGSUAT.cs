@@ -21,9 +21,9 @@ namespace DoWeb.Models
         }
     
         public int ID { get; set; }
-        public Nullable<int> Chuan { get; set; }
-        public Nullable<int> ThucTe { get; set; }
-        public Nullable<int> ChenhLech { get; set; }
+        public Nullable<decimal> Chuan { get; set; }
+        public Nullable<decimal> ThucTe { get; set; }
+        public Nullable<decimal> ChenhLech { get; set; }
         public string LyDoLech { get; set; }
         public string BienPhap { get; set; }
         public Nullable<int> ChamDiem { get; set; }

@@ -10,9 +10,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Chuan" Type="int" />
-          <Property Name="ThucTe" Type="int" />
-          <Property Name="ChenhLech" Type="int" />
+          <Property Name="Chuan" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="ThucTe" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="ChenhLech" Type="decimal" Precision="6" Scale="2" />
           <Property Name="LyDoLech" Type="nvarchar" MaxLength="255" />
           <Property Name="BienPhap" Type="nvarchar" MaxLength="255" />
           <Property Name="ChamDiem" Type="int" />
@@ -37,7 +37,7 @@
           <Property Name="SoNVDungMay" Type="int" />
           <Property Name="MaNguyenLieu" Type="int" />
           <Property Name="TenKCS" Type="nvarchar" MaxLength="10" />
-          <Property Name="DiemTB" Type="int" />
+          <Property Name="DiemTB" Type="decimal" Precision="4" Scale="2" />
           <Property Name="XepLoai" Type="nvarchar" MaxLength="10" />
           <Property Name="MaPhePham" Type="int" />
         </EntityType>
@@ -100,9 +100,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Chuan" Type="int" />
-          <Property Name="ThucTe" Type="int" />
-          <Property Name="ChenhLech" Type="int" />
+          <Property Name="Chuan" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="ThucTe" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="ChenhLech" Type="decimal" Precision="6" Scale="2" />
           <Property Name="LyDoLech" Type="nvarchar" MaxLength="255" />
           <Property Name="BienPhap" Type="nvarchar" MaxLength="255" />
           <Property Name="ChamDiem" Type="int" />
@@ -125,9 +125,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Chuan" Type="Int32" />
-          <Property Name="ThucTe" Type="Int32" />
-          <Property Name="ChenhLech" Type="Int32" />
+          <Property Name="Chuan" Type="Decimal" />
+          <Property Name="ThucTe" Type="Decimal" />
+          <Property Name="ChenhLech" Type="Decimal" />
           <Property Name="LyDoLech" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="BienPhap" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ChamDiem" Type="Int32" />
@@ -151,7 +151,7 @@
           <Property Name="SoNVDungMay" Type="Int32" />
           <Property Name="MaNguyenLieu" Type="Int32" />
           <Property Name="TenKCS" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="DiemTB" Type="Int32" />
+          <Property Name="DiemTB" Type="Decimal" />
           <Property Name="XepLoai" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="MaPhePham" Type="Int32" />
           <NavigationProperty Name="CHUKYNANGSUAT" Relationship="ProjectDBModel.FK_KHUONEP_CHUKYNANGSUAT" FromRole="KHUONEP" ToRole="CHUKYNANGSUAT" />
@@ -228,9 +228,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Chuan" Type="Int32" />
-          <Property Name="ThucTe" Type="Int32" />
-          <Property Name="ChenhLech" Type="Int32" />
+          <Property Name="Chuan" Type="Decimal" />
+          <Property Name="ThucTe" Type="Decimal" />
+          <Property Name="ChenhLech" Type="Decimal" />
           <Property Name="LyDoLech" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="BienPhap" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ChamDiem" Type="Int32" />

@@ -28,7 +28,7 @@ namespace DoWeb.Models
         public Nullable<int> SoNVDungMay { get; set; }
         public Nullable<int> MaNguyenLieu { get; set; }
         public string TenKCS { get; set; }
-        public Nullable<int> DiemTB { get; set; }
+        public Nullable<decimal> DiemTB { get; set; }
         public string XepLoai { get; set; }
         public Nullable<int> MaPhePham { get; set; }
         public Nullable<int> CamBienTRB { get; set; }
