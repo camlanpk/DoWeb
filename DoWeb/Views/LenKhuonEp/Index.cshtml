@@ -1,19 +1,13 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Danh sách Lên khuôn";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <link href="~/Content/MyStyle.css" rel="stylesheet" />
-<script src="~/Scripts/MyScript.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet" />
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <h2>Danh sách lên khuôn ép</h2>
 <button class="btn btn-primary" onclick="openPopup('@Url.Action("Create")')">Thêm mới</button>
+
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -24,87 +18,232 @@
             <th>Điểm TB</th>
             <th>Xếp loại</th>
         </tr>
+    </thead>
+    <tbody>
         @foreach (var a in Model)
         {
             <tr>
-                <th>
-                    @a.ID
-                </th>
-                <th>
-                    @(a.MayKhuon1?.TenMayKhuon ?? "Không có")
-                </th>
-                <th>
-                    @a.HotRunner
-                </th>
-                <th>
-                    @(a.MayKhuon?.TenMayKhuon ?? "Không có")
-                </th>
-                <th>
-                    @a.DiemTB
-                </th>
-                <th>
-                    @a.XepLoai
-                </th>
+                <td>@a.ID</td>
+                <td>@(a.MayKhuon1?.TenMayKhuon ?? "Không có")</td>
+                <td>@(a.HotRunner == 1 ? "Có" : "Không")</td>
+                <td>@(a.MayKhuon?.TenMayKhuon ?? "Không có")</td>
+                <td>@a.DiemTB</td>
+                <td>@a.XepLoai</td>
             </tr>
         }
-    </thead>
+    </tbody>
 </table>
 
+<!-- Modal -->
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-        </div>
+        <div class="modal-content"></div>
     </div>
 </div>
 
-<script>function openPopup(url) {         $("#formModal .modal-content").load(url, function () {             $("#formModal").modal("show");         });     }      $(document).on("submit", "form", function (e) {         e.preventDefault();         var form = $(this);         $.ajax({             type: form.attr("method"),             url: form.attr("action"),             data: form.serialize(),             success: function (res) {                 if (res.success) {                     location.reload();                 } else {                     $("#formModal .modal-content").html(res);                 }             }         });     });</script>
-<script>$("#searchBox").on("keyup", function () {         var filter = $(this).val().toLowerCase();         $("#ddlMayKhuon option").each(function () {             var text = $(this).text().toLowerCase();             if (text.includes(filter) || $(this).val() === "") {                 $(this).show();             } else {                 $(this).hide();             }         });     });</script>
-<script>function closePopup() {         $("#formModal").modal("hide");     }</script>
-<script>     $(function () {         $('.select2').select2({             width: '100%',             placeholder: "Nhập để tìm...",             allowClear: true         });     });</script>
-<script>function closePopup() {         $("#formModal").modal("hide");                 function openPopup(url) {             $("#formModal .modal-content").load(url, function () {                 $("#formModal").modal("show");             });         }          $(document).on("submit", "form", function (e) {             e.preventDefault();             var form = $(this);             $.ajax({                 type: form.attr("method"),                 url: form.attr("action"),                 data: form.serialize(),                 success: function (res) {                     if (res.success) {                         location.reload();                     } else {                         $("#formModal .modal-content").html(res);                     }                 }             });         });</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--SCRIPT-->
 <script>
-$(document).ready(function () {
-    $("#searchInput").on("keyup", function () {
-        var searchValue = $(this).val();
+    function openPopup(url) {
+        $("#formModal .modal-content").load(url, function () {
+            $("#formModal").modal("show");
+            initSearch();
+        });
+    }
 
-        if (searchValue.length < 1) {
-            $("#searchResults").hide();
-            return;
-        }
+    function closePopup() {
+        $("#formModal").modal("hide");
+    }
+        //Search cho máy
+    function initSearch() {
+        var $searchInputMay = $("#searchInputMay", "#formModal .modal-content");
+        var $searchResultsMay = $("#searchResultsMay", "#formModal .modal-content");
+        var $selectedMayId = $("#selectedMayId", "#formModal .modal-content");
+        var $btnShowAllMay = $("#btnShowAllMay", "#formModal .modal-content");
+        var $btnClearMay = $("#btnClearMay", "#formModal .modal-content");
 
-        $.ajax({
-            url: '@Url.Action("SearchMayKhuon", "Home")',
-            type: 'GET',
-            data: { searchString: searchValue },
-            success: function (data) {
-                var $list = $("#searchResults");
-                $list.empty();
+        $searchInputMay.on("keyup", function () {
+            var searchValue = $(this).val().trim();
 
-                if (data.length > 0) {
-                    $.each(data, function (i, item) {
-                        $list.append('<li class="list-group-item list-group-item-action">' + item.TenMayKhuon + '</li>');
-                    });
-                    $list.show();
-                } else {
-                    $list.hide();
-                }
+            if (searchValue.length < 1) {
+                $searchResultsMay.hide();
+                $selectedMayId.val('');
+                return;
+            }
+            loadMayList(searchValue);
+        });
+
+        $btnShowAllMay.on("click", function () {
+            var isVisible = $searchResultsMay.is(":visible");
+            if (isVisible) {
+                $searchResultsMay.hide();
+            } else {
+                loadMayList("");
             }
         });
-    });
+        $btnClearMay.on("click", function () {
+            $searchInputMay.val('');
+            $selectedMayId.val('');
+            $searchResultsMay.hide();
+        });
 
-    // Khi chọn 1 mục trong dropdown
-    $(document).on("click", "#searchResults li", function () {
-        $("#searchInput").val($(this).text());
-        $("#searchResults").hide();
-    });
+        $(document).on("click", "#searchResultsMay li", function () {
+            var $this = $(this);
+            $searchInputMay.val($this.text());
+            $selectedMayId.val($this.data("mamaykhuon"));
+            $searchResultsMay.hide();
+        });
 
-    // Ẩn dropdown khi click ra ngoài
-    $(document).on("click", function (e) {
-        if (!$(e.target).closest('#searchInput').length) {
-            $("#searchResults").hide();
+        function loadMayList(searchValue) {
+            $.ajax({
+                url: '@Url.Action("SearchMay", "LenKhuonEp")',
+                type: 'GET',
+                data: { searchString: searchValue },
+                success: function (data) {
+                    $searchResultsMay.empty();
+                    if (data.length > 0) {
+                        $.each(data, function (i, item) {
+                            $searchResultsMay.append(
+                                '<li class="list-group-item list-group-item-action" data-mamaykhuon="' +
+                                item.MaMayKhuon + '">' + item.TenMayKhuon + '</li>'
+                            );
+                        });
+                        $searchResultsMay.show();
+                    } else {
+                        $searchResultsMay.hide();
+                    }
+                }
+            });
         }
-    });
-});
-</script>
 
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest('#searchInputMay, #btnShowAllMay').length) {
+                $searchResultsMay.hide();
+            }
+        });
+
+        // Search cho nguyên liệu
+        var $searchInputNguyenLieu = $("#searchInputNguyenLieu", "#formModal .modal-content");
+        var $searchResultsNguyenLieu = $("#searchResultsNguyenLieu", "#formModal .modal-content");
+        var $selectedNguyenLieuId = $("#selectedNguyenLieuId", "#formModal .modal-content");
+        var $btnShowAllNguyenLieu = $("#btnShowAllNguyenLieu", "#formModal .modal-content");
+        var $btnClearNguyenLieu = $("#btnClearNguyenLieu", "#formModal .modal-content");
+
+
+        $searchInputNguyenLieu.on("keyup", function () {
+            var searchValue = $(this).val().trim();
+            if (searchValue.length < 1) {
+                $searchResultsNguyenLieu.hide();
+                $selectedNguyenLieuId.val('');
+                return;
+            }
+            loadNguyenLieuList(searchValue);
+        });
+        $btnShowAllNguyenLieu.on("click", function () {
+            var isVisible = $searchResultsNguyenLieu.is(":visible");
+            if (isVisible) {
+                $searchResultsNguyenLieu.hide();
+            } else {
+                loadNguyenLieuList("");
+            }
+        });
+        $btnClearNguyenLieu.on("click", function () {
+            $searchInputNguyenLieu.val('');
+            $selectedNguyenLieuId.val('');
+            $searchResultsNguyenLieu.hide();
+        });
+
+        function loadNguyenLieuList(searchValue) {
+            $.ajax({
+                url: '@Url.Action("SearchNguyenLieu", "LenKhuonEp")',
+                type: 'GET',
+                data: { searchString: searchValue },
+                success: function (data) {
+                    $searchResultsNguyenLieu.empty();
+                    if (data.length > 0) {
+                        $.each(data, function (i, item) {
+                            $searchResultsNguyenLieu.append('<li class="list-group-item list-group-item-action" data-manguyenlieu="' + item.MaNguyenLieu + '">' + item.TenNguyenLieu + '</li>');
+                        });
+                        $searchResultsNguyenLieu.show();
+                    } else {
+                        $searchResultsNguyenLieu.hide();
+                    }
+                }
+            });
+        }
+        $(document).on("click", "#searchResultsNguyenLieu li", function () {
+            var $this = $(this);
+            $searchInputNguyenLieu.val($this.text());
+            $selectedNguyenLieuId.val($this.data("manguyenlieu"));
+            $searchResultsNguyenLieu.hide();
+        });
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest('#searchInputNguyenLieu, #searchResultsNguyenLieu, #btnShowAllNguyenLieu, #btnClearNguyenLieu').length) {
+                $searchResultsNguyenLieu.hide();
+            }
+        });
+
+
+        // Search cho Khuôn
+        var $searchInputKhuon = $("#searchInputKhuon", "#formModal .modal-content");
+        var $searchResultsKhuon = $("#searchResultsKhuon", "#formModal .modal-content");
+        var $selectedKhuonId = $("#selectedKhuonId", "#formModal .modal-content");
+        var $btnShowAllKhuon = $("#btnShowAllKhuon", "#formModal .modal-content");
+        var $btnClearKhuon = $("#btnClearKhuon", "#formModal .modal-content");
+
+
+        $searchInputKhuon.on("keyup", function () {
+            var searchValue = $(this).val().trim();
+            if (searchValue.length < 1) {
+                $searchResultsKhuon.hide();
+                $selectedKhuonId.val('');
+                return;
+            }
+            loadKhuonList(searchValue);
+        });
+        $btnShowAllKhuon.on("click", function () {
+            var isVisible = $searchResultsKhuon.is(":visible");
+            if (isVisible) {
+                $searchResultsKhuon.hide();
+            } else {
+                loadKhuonList("");
+            }
+        });
+        $btnClearKhuon.on("click", function () {
+            $searchInputKhuon.val('');
+            $selectedKhuonId.val('');
+            $searchResultsKhuon.hide();
+        });
+        function loadKhuonList(searchValue) {
+            $.ajax({
+                url: '@Url.Action("SearchKhuon", "LenKhuonEp")',
+                type: 'GET',
+                data: { searchString: searchValue },
+                success: function (data) {
+                    $searchResultsKhuon.empty();
+                    if (data.length > 0) {
+                        $.each(data, function (i, item) {
+                            $searchResultsKhuon.append('<li class="list-group-item list-group-item-action" data-makhuon="' + item.MaKhuon + '">' + item.TenMayKhuon + '</li>');
+                        });
+                        $searchResultsKhuon.show();
+                    } else {
+                        $searchResultsKhuon.hide();
+                    }
+                }
+            });
+        }
+        $(document).on("click", "#searchResultsKhuon li", function () {
+            var $this = $(this);
+            $searchInputKhuon.val($this.text());
+            $selectedKhuonId.val($this.data("makhuon"));
+            $searchResultsKhuon.hide();
+            $("#ddlKhuon", "#formModal .modal-content").val($this.data("makhuon"));
+
+        });
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest('#searchInputKhuon, #searchResultsKhuon, #btnShowAllKhuon, #btnClearKhuon').length) {
+                $searchResultsKhuon.hide();
+            }
+        });
+    }
+
+</script>

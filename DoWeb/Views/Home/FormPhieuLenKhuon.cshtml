@@ -1,52 +1,0 @@
-﻿@model DoWeb.Models.KHUONEP
-@{
-    ViewBag.Title = "FormPhieuLenKhuon";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<style>
-    .form-control {
-        border-radius: 0 !important;
-        border: 1px solid #000 !important;
-        box-shadow: none !important;
-    }
-
-    .btn {
-        border-radius: 0 !important;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .col-md-9 {
-        margin-bottom: 15px;
-    }
-</style>
-
-<h2 class="card-title">PHIẾU LÊN KHUÔN ÉP</h2>
-<hr />
-@using (Html.BeginForm())
-
-{
-    <div class="modal-body">
-        <div class="form-group row">
-            <label class="col-md-2 col-form-label">Tìm khuôn</label>
-            <div class="col-md-9">
-                <div class="form-group" style="width: 300px;">                     <input type="text" id="searchMayKhuon" class="form-control" placeholder="Nhập tên máy khuôn..." />                 </div>                 <select id="mayKhuonDropdown" class="form-control select2" style="width: 300px; display:none;">                 </select>
-            </div>
-        </div>
-
-        <hr />
-        <div class="form-group">
-            <label>Ghi chú:</label>
-            <p class="small text-muted">
-                1 điểm: Kém; 2 điểm: Không đạt; 3 điểm: Trung bình; 4 điểm: Khá; 5 điểm: Giỏi
-            </p>
-        </div>
-    </div>
-
-}
-<script src="~/Scripts/jquery-3.6.0.min.js"></script>
-<script src="~/Scripts/select2.min.js"></script>  
-<link href="~/Content/select2.min.css" rel="stylesheet" />
-<script>     $(document).ready(function () {         $('#searchMayKhuon').keypress(function (e) {             if (e.which === 13) {                 e.preventDefault();                 let searchText = $(this).val().trim();                  if (searchText.length === 0) {                     alert("Vui lòng nhập tên máy khuôn.");                     return;                 }                  $.ajax({                     url: '@Url.Action("SearchMayKhuon", "Home")',                     type: 'GET',                     data: { searchString: searchText },                     success: function (data) {                         let dropdown = $('#mayKhuonDropdown');                         dropdown.empty();                          if (data.length === 0) {                             dropdown.hide();                             alert("Không tìm thấy máy khuôn nào.");                             return;                         }                          $.each(data, function (i, item) {                             dropdown.append($('<option>', {                                 value: item.Id,                                 text: item.TenMayKhuon + " (" + item.Equipment + ")"                             }));                         });                          dropdown.show();                         dropdown.select2({                             placeholder: "Chọn máy khuôn",                             width: 'resolve'                         });                     },                     error: function () {                         alert("Lỗi khi tìm kiếm.");                     }                 });             }         });     }); </script>

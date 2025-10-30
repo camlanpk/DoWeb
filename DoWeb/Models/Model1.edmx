@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Chuan" Type="int" />
           <Property Name="ThucTe" Type="int" />
           <Property Name="ChenhLech" Type="int" />
@@ -27,9 +27,11 @@
           <Property Name="MaThoiGian" Type="int" />
           <Property Name="MaCKNS" Type="int" />
           <Property Name="MaMayKhuon" Type="bigint" />
+          <Property Name="MaKhuon" Type="bigint" />
           <Property Name="MayLanhHD" Type="int" />
           <Property Name="NhietDoML" Type="int" />
           <Property Name="TayRobotHD" Type="int" />
+          <Property Name="CamBienTRB" Type="int" />
           <Property Name="TinHieuTRB" Type="int" />
           <Property Name="SoNVLenKhuon" Type="int" />
           <Property Name="SoNVDungMay" Type="int" />
@@ -38,8 +40,6 @@
           <Property Name="DiemTB" Type="int" />
           <Property Name="XepLoai" Type="nvarchar" MaxLength="10" />
           <Property Name="MaPhePham" Type="int" />
-          <Property Name="CamBienTRB" Type="int" />
-          <Property Name="MaKhuon" Type="bigint" />
         </EntityType>
         <EntityType Name="MayKhuon">
           <Key>
@@ -64,7 +64,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenNguyenLieu" Type="nvarchar" MaxLength="200" />
           <Property Name="TiLePheTron" Type="decimal" Precision="5" Scale="2" />
         </EntityType>
@@ -72,7 +72,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DinhMuc" Type="int" />
           <Property Name="SLPheXa" Type="int" />
           <Property Name="SoShotPX" Type="int" />
@@ -87,7 +87,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Chuan" Type="decimal" Precision="5" Scale="2" />
           <Property Name="ThucTe" Type="decimal" Precision="5" Scale="2" />
           <Property Name="ChenhLech" Type="decimal" Precision="5" Scale="2" />
@@ -99,7 +99,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Chuan" Type="int" />
           <Property Name="ThucTe" Type="int" />
           <Property Name="ChenhLech" Type="int" />
@@ -107,90 +107,6 @@
           <Property Name="BienPhap" Type="nvarchar" MaxLength="255" />
           <Property Name="ChamDiem" Type="int" />
         </EntityType>
-        <Association Name="FK_KHUONEP_CHUKYNANGSUAT">
-          <End Role="CHUKYNANGSUAT" Type="Self.CHUKYNANGSUAT" Multiplicity="0..1" />
-          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CHUKYNANGSUAT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="KHUONEP">
-              <PropertyRef Name="MaCKNS" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KHUONEP_KHUON">
-          <End Role="MayKhuon" Type="Self.MayKhuon" Multiplicity="0..1" />
-          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MayKhuon">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="KHUONEP">
-              <PropertyRef Name="MaKhuon" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KHUONEP_MAYKHUON">
-          <End Role="MayKhuon" Type="Self.MayKhuon" Multiplicity="0..1" />
-          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MayKhuon">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="KHUONEP">
-              <PropertyRef Name="MaMayKhuon" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KHUONEP_NGUYENLIEU">
-          <End Role="NGUYENLIEU" Type="Self.NGUYENLIEU" Multiplicity="0..1" />
-          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NGUYENLIEU">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="KHUONEP">
-              <PropertyRef Name="MaNguyenLieu" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KHUONEP_PHEPHAM">
-          <End Role="PHEPHAM" Type="Self.PHEPHAM" Multiplicity="0..1" />
-          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PHEPHAM">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="KHUONEP">
-              <PropertyRef Name="MaPhePham" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KHUONEP_THOIGIAN">
-          <End Role="THOIGIANLENKHUON" Type="Self.THOIGIANLENKHUON" Multiplicity="0..1" />
-          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="THOIGIANLENKHUON">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="KHUONEP">
-              <PropertyRef Name="MaThoiGian" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KHUONEP_TRONGLUONG">
-          <End Role="TRONGLUONG" Type="Self.TRONGLUONG" Multiplicity="0..1" />
-          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TRONGLUONG">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="KHUONEP">
-              <PropertyRef Name="MaTrongLuong" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ProjectDBModelStoreContainer">
           <EntitySet Name="CHUKYNANGSUAT" EntityType="Self.CHUKYNANGSUAT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KHUONEP" EntityType="Self.KHUONEP" Schema="dbo" store:Type="Tables" />
@@ -199,34 +115,6 @@
           <EntitySet Name="PHEPHAM" EntityType="Self.PHEPHAM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="THOIGIANLENKHUON" EntityType="Self.THOIGIANLENKHUON" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRONGLUONG" EntityType="Self.TRONGLUONG" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_KHUONEP_CHUKYNANGSUAT" Association="Self.FK_KHUONEP_CHUKYNANGSUAT">
-            <End Role="CHUKYNANGSUAT" EntitySet="CHUKYNANGSUAT" />
-            <End Role="KHUONEP" EntitySet="KHUONEP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_KHUON" Association="Self.FK_KHUONEP_KHUON">
-            <End Role="MayKhuon" EntitySet="MayKhuon" />
-            <End Role="KHUONEP" EntitySet="KHUONEP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_MAYKHUON" Association="Self.FK_KHUONEP_MAYKHUON">
-            <End Role="MayKhuon" EntitySet="MayKhuon" />
-            <End Role="KHUONEP" EntitySet="KHUONEP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_NGUYENLIEU" Association="Self.FK_KHUONEP_NGUYENLIEU">
-            <End Role="NGUYENLIEU" EntitySet="NGUYENLIEU" />
-            <End Role="KHUONEP" EntitySet="KHUONEP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_PHEPHAM" Association="Self.FK_KHUONEP_PHEPHAM">
-            <End Role="PHEPHAM" EntitySet="PHEPHAM" />
-            <End Role="KHUONEP" EntitySet="KHUONEP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_THOIGIAN" Association="Self.FK_KHUONEP_THOIGIAN">
-            <End Role="THOIGIANLENKHUON" EntitySet="THOIGIANLENKHUON" />
-            <End Role="KHUONEP" EntitySet="KHUONEP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_TRONGLUONG" Association="Self.FK_KHUONEP_TRONGLUONG">
-            <End Role="TRONGLUONG" EntitySet="TRONGLUONG" />
-            <End Role="KHUONEP" EntitySet="KHUONEP" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -236,7 +124,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Chuan" Type="Int32" />
           <Property Name="ThucTe" Type="Int32" />
           <Property Name="ChenhLech" Type="Int32" />
@@ -301,7 +189,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenNguyenLieu" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TiLePheTron" Type="Decimal" Precision="5" Scale="2" />
           <NavigationProperty Name="KHUONEPs" Relationship="ProjectDBModel.FK_KHUONEP_NGUYENLIEU" FromRole="NGUYENLIEU" ToRole="KHUONEP" />
@@ -310,7 +198,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DinhMuc" Type="Int32" />
           <Property Name="SLPheXa" Type="Int32" />
           <Property Name="SoShotPX" Type="Int32" />
@@ -326,7 +214,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Chuan" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="ThucTe" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="ChenhLech" Type="Decimal" Precision="5" Scale="2" />
@@ -339,7 +227,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Chuan" Type="Int32" />
           <Property Name="ThucTe" Type="Int32" />
           <Property Name="ChenhLech" Type="Int32" />
@@ -491,8 +379,8 @@
           <EntitySetMapping Name="KHUONEPs">
             <EntityTypeMapping TypeName="ProjectDBModel.KHUONEP">
               <MappingFragment StoreEntitySet="KHUONEP">
-                <ScalarProperty Name="MaKhuon" ColumnName="MaKhuon" />
                 <ScalarProperty Name="CamBienTRB" ColumnName="CamBienTRB" />
+                <ScalarProperty Name="MaKhuon" ColumnName="MaKhuon" />
                 <ScalarProperty Name="MaMayKhuon" ColumnName="MaMayKhuon" />
                 <ScalarProperty Name="MaPhePham" ColumnName="MaPhePham" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
