@@ -51,10 +51,14 @@ input[type=number] {
     padding: 1px 2px 1px 1px;
 }
 
-.inputNumber {
-    width: 100px !important;
+.inputInt {
     text-align: center;
 }
+.inputDecimal {
+    width: 70px !important;
+    text-align: center;
+}
+
 
 .inputPara {
     min-height: 80px;

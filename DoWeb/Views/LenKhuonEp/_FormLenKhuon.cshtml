@@ -28,7 +28,7 @@
 
                 <input type="hidden" id="selectedMayId" name="MaMayKhuon" />
 
-                <ul id="searchResultsMay" class="search-results list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
+                <ul id="searchResultsMay" class="search-results list-group position-absolute w-100" style="z-index: 1000; display: none; max-height: 150px;"></ul>
             </div>
 
             <label class="col-md-1 text-md-right">Hot runner</label>
@@ -61,7 +61,7 @@
                 </div>
 
                 <input type="hidden" id="selectedKhuonId" name="MaKhuon" />
-                <ul id="searchResultsKhuon" class="search-results list-group position-absolute w-100" style="z-index: 1000; display: none;"></ul>
+                <ul id="searchResultsKhuon" class="search-results list-group position-absolute w-100" style="z-index: 1000; display: none; max-height: 150px;"></ul>
             </div>
             <label class="col-md-1">Nguyên liệu</label>
             <div class="col-md-4 form-group position-relative">
@@ -80,28 +80,28 @@
 
                 <input type="hidden" id="selectedNguyenLieuId" name="MaNguyenLieu" />
 
-                <ul id="searchResultsNguyenLieu" class="search-results list-group position-absolute w-100" style="z-index: 1000; display: none;">
+                <ul id="searchResultsNguyenLieu" class="search-results list-group position-absolute w-100" style="z-index: 1000; display: none; max-height:150px;">
                 </ul>
             </div>
 
         </div>
         <hr />
-        <div class="form-group row">
+        <div class="form-group row" datagroup ="1">
             <div class="section-title">TRỌNG LƯỢNG (gr)</div>
             <label class="col-md-1 ">Chuẩn</label>
             <div class="col-md-2">
-                @Html.EditorFor(model => model.TRONGLUONG.Chuan, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.TRONGLUONG.Chuan, null, new { htmlAttributes = new { @class = "inputDecimal chuan", type = "text",inputmode = "decimal", lang = "en", min = 0, max = 10000, step = "0.01" } })
                 @Html.ValidationMessageFor(model => model.TRONGLUONG.Chuan)
             </div>
 
             <label class="col-md-1">Thực tế</label>
             <div class="col-md-2">
-                @Html.EditorFor(model => model.TRONGLUONG.ThucTe, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.TRONGLUONG.ThucTe, null, new { htmlAttributes = new { @class = "inputDecimal thucte", type = "text", min = 0, max = 10000 } })
                 @Html.ValidationMessageFor(model => model.TRONGLUONG.ThucTe)
             </div>
             <label class="col-md-1">Chênh lệch</label>
             <div class="col-md-2">
-                @Html.EditorFor(model => model.TRONGLUONG.ChenhLech, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.TRONGLUONG.ChenhLech, null, new { htmlAttributes = new { @class = "inputDecimal chenhlech", type = "text", max = 10000 } })
                 @Html.ValidationMessageFor(model => model.TRONGLUONG.ChenhLech)
             </div>
             <span></span>
@@ -120,28 +120,28 @@
             <label class="col-md-1">Điểm đạt</label>
             <div class="col-md-3">
                 <div class="input-group" style="max-width: 200px;">
-                    @Html.EditorFor(model => model.TRONGLUONG.ChamDiem, new { htmlAttributes = new { @class = "inputSmallNumber form-control height-ig", type = "number", min = 1, max = 5, step = 1 } })
+                    @Html.EditorFor(model => model.TRONGLUONG.ChamDiem, new { htmlAttributes = new { @class = "inputSmallNumber form-control height-ig", type = "text", min = 1, max = 5, step = 1 } })
                     <span class="input-group-text height-ig">/5 điểm</span>
                 </div>
             </div>
         </div>
         <hr />
-        <div class="form-group row">
+        <div class="form-group row" datagroup="2">
             <div class="section-title">CHU KỲ NĂNG XUẤT</div>
             <label class="col-md-1">Chuẩn</label>
             <div class="col-md-2">
-                @Html.EditorFor(model => model.CHUKYNANGSUAT.Chuan, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.CHUKYNANGSUAT.Chuan, new { htmlAttributes = new { @class = "inputDecimal chuan", type = "text", min = 0, max = 10000 } })
                 @Html.ValidationMessageFor(model => model.CHUKYNANGSUAT.Chuan)
             </div>
             <label class="col-md-1">Thực tế</label>
             <div class="col-md-2">
-                @Html.EditorFor(model => model.CHUKYNANGSUAT.ThucTe, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.CHUKYNANGSUAT.ThucTe, null, new { htmlAttributes = new { @class = "inputDecimal thucte", type = "text", min = 0, max = 10000 } })
                 @Html.ValidationMessageFor(model => model.CHUKYNANGSUAT.ThucTe)
             </div>
 
             <label class="col-md-1">Chênh lệch</label>
             <div class="col-md-2 ">
-                @Html.EditorFor(model => model.CHUKYNANGSUAT.ChenhLech, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.CHUKYNANGSUAT.ChenhLech, null, new { htmlAttributes = new { @class = "inputDecimal chenhlech", type = "text", max = 10000 } })
                 @Html.ValidationMessageFor(model => model.CHUKYNANGSUAT.ChenhLech)
             </div>
             <span></span>
@@ -160,7 +160,7 @@
             <label class="col-md-1">Điểm đạt</label>
             <div class="col-md-3">
                 <div class="input-group" style="max-width: 200px">
-                    @Html.EditorFor(model => model.CHUKYNANGSUAT.ChamDiem, new { htmlAttributes = new { @class = "inputSmallNumber form-control height-ig", type = "number", min = 1, max = 5, step = 1 } })
+                    @Html.EditorFor(model => model.CHUKYNANGSUAT.ChamDiem, new { htmlAttributes = new { @class = "inputSmallNumber form-control height-ig", type = "text", min = 1, max = 5, step = 1 } })
                     <span class="input-group-text height-ig">/5 điểm</span>
                 </div>
             </div>
@@ -169,7 +169,6 @@
         <hr />
         <div class="form-group row align-items-center">
             <div class="section-title">MÁY LẠNH</div>
-            <label class="col-md-1 text-md-right">Hoạt động</label>
             <div class="col-md-3 d-flex align-items-center gap-3">
                 <div class="form-check form-check-inline mb-0">
                     @Html.RadioButtonFor(m => m.MayLanhHD, 1, new { @class = "form-check-input", id = "MLHD_Co" })
@@ -185,7 +184,7 @@
             <label class="col-md-1 text-md-right">Nhiệt độ</label>
             <div class="col-md-2">
                 <div class="input-group" style="max-width: 120px;">
-                    @Html.TextBoxFor(model => model.NhietDoML, new { @class = "form-control inputNumber height-ig", type = "number", min = 16, max = 30, })
+                    @Html.TextBoxFor(model => model.NhietDoML, new { @class = "form-control inputInt height-ig inputNhietDo", type = "number", min = 16, max = 30, id = "NhietDoML"})
                     <span class="input-group-text height-ig">°C</span>
                 </div>
             </div>
@@ -227,21 +226,21 @@
             </div>
         </div>
         <hr />
-        <div class="form-group row">
+        <div class="form-group row" datagroup="3">
             <div class="section-title">THỜI GIAN LÊN KHUÔN (Phút)</div>
             <label class="col-md-1">Chuẩn</label>
             <div class="col-md-2 ">
-                @Html.EditorFor(model => model.THOIGIANLENKHUON.Chuan, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.THOIGIANLENKHUON.Chuan, null, new { htmlAttributes = new { @class = "inputDecimal chuan", type = "text", min = 0, max = 10000 } })
                 @Html.ValidationMessageFor(model => model.THOIGIANLENKHUON.Chuan)
             </div>
             <label class="col-md-1">Thực tế</label>
             <div class="col-md-2 ">
-                @Html.EditorFor(model => model.THOIGIANLENKHUON.ThucTe, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.THOIGIANLENKHUON.ThucTe, null, new { htmlAttributes = new { @class = "inputDecimal thucte", type = "text", min = 0, max = 10000 } })
                 @Html.ValidationMessageFor(model => model.THOIGIANLENKHUON.ThucTe)
             </div>
             <label class="col-md-1">Chênh lệch</label>
             <div class="col-md-2 ">
-                @Html.EditorFor(model => model.THOIGIANLENKHUON.ChenhLech, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.THOIGIANLENKHUON.ChenhLech, null, new { htmlAttributes = new { @class = "inputDecimal chenhlech", type = "text" } })
                 @Html.ValidationMessageFor(model => model.THOIGIANLENKHUON.ChenhLech)
             </div>
             <span></span>
@@ -269,39 +268,37 @@
         <div class="form-group row">
             <div class="section-title">PHẾ PHẨM</div>
             <label class="col-md-1">Định mức</label>
-            <div class="col-md-3">
-                <div class="input-group" style="max-width: 120px;">
-                    @Html.EditorFor(model => model.PHEPHAM.DinhMuc, new { htmlAttributes = new { @class = "inputNumber form-control height-ig", id = "DinhMuc", type = "number", min = 0, max = 10000 } })
-                    <span class="input-group-text height-ig">shot</span>
-                </div>
+            <div class="col-md-2 input-group" style="max-width: 132px;">
+                @Html.EditorFor(model => model.PHEPHAM.DinhMuc, new { htmlAttributes = new { @class = "inputInt form-control height-ig", type = "number", min = 0, max = 10000, id = "DinhMuc" } })
+                <span class="input-group-text height-ig">shot</span>
             </div>
             <label class="">Phế xã:</label>
             <label class="col-md-1">Số lượng</label>
             <div class="col-md-2 input-group" style="max-width: 132px">
-                @Html.EditorFor(model => model.PHEPHAM.SLPheXa, null, new { htmlAttributes = new { @class = "inputNumber form-control height-ig", type = "number", min = 0, max = 10000, id = "SLPheXa" } })
+                @Html.EditorFor(model => model.PHEPHAM.SLPheXa, null, new { htmlAttributes = new { @class = "inputInt form-control height-ig", type = "number", min = 0, max = 10000, id = "SLPheXa" } })
                 <span class="input-group-text height-ig" >kg</span>
             </div>
             <label class="col-md-1">Số shot</label>
             <div class="col-md-2 input-group" style="max-width:150px">
-                @Html.EditorFor(model => model.PHEPHAM.SoShotPX, null, new { htmlAttributes = new { @class = "inputNumber form-control height-ig", type = "number", min = 0, max = 10000, id = "SoShotPX" } })
+                @Html.EditorFor(model => model.PHEPHAM.SoShotPX, null, new { htmlAttributes = new { @class = "inputInt form-control height-ig", type = "number", min = 0, max = 10000, id = "SoShotPX" } })
                 <span class="input-group-text height-ig" >shot</span>
             </div>
             <span></span>
             <label class="col-md-3">Phế xã ra hàng:</label>
             <label class="col-md-1">Số shot</label>
             <div class="col-md-2 input-group" style="max-width:150px">
-                @Html.EditorFor(model => model.PHEPHAM.SoShotPRH, null, new { htmlAttributes = new { @class = "inputNumber form-control height-ig", type = "number", min = 0, max = 10000, id = "SoShotPRH",  } })
+                @Html.EditorFor(model => model.PHEPHAM.SoShotPRH, null, new { htmlAttributes = new { @class = "inputInt form-control height-ig", type = "number", min = 0, max = 10000, id = "SoShotPRH",  } })
                 <span class="input-group-text height-ig">shot</span>
             </div>
             <span></span>
             <label class="col-md-2">Tổng (Phế xã + Phế xã ra hàng)</label>
             <div class="col-md-2 input-group" style="max-width:150px">
-                @Html.EditorFor(model => model.PHEPHAM.Tong, null, new { htmlAttributes = new { @class = "inputNumber form-control height-ig", type = "number", min = 0, max = 10000, id = "Tong", } })
+                @Html.EditorFor(model => model.PHEPHAM.Tong, null, new { htmlAttributes = new { @class = "inputInt form-control height-ig", type = "number", min = 0, max = 10000, id = "Tong", } })
                 <span class="input-group-text height-ig">shot</span>
             </div>
             <label class="col-md-2">shot chênh lệch</label>
             <div class="col-md-2 input-group" style="max-width:150px">
-                @Html.EditorFor(model => model.PHEPHAM.ChenhLech, null, new { htmlAttributes = new { @class = "inputNumber form-control height-ig", type = "number", max = 10000, id = "ChenhLech",  } })
+                @Html.EditorFor(model => model.PHEPHAM.ChenhLech, null, new { htmlAttributes = new { @class = "form-control height-ig", type = "number", max = 10000, id = "ShotChenhLech", style = "text-align: center;\r\n"  } })
                 <span class="input-group-text height-ig">shot</span>
             </div>
             <span></span>
@@ -327,11 +324,11 @@
         <div class="form-group row">
             <label class="col-md-2">Số nhân viên kỹ thuật lên khuôn</label>
             <div class="col-md-2">
-                @Html.EditorFor(model => model.SoNVLenKhuon, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.SoNVLenKhuon, null, new { htmlAttributes = new { @class = "inputInt", type = "number", min = 0, max = 10000 } })
             </div>
             <label class="col-md-2">Số nhân viên đứng máy</label>
             <div class="col-md-2">
-                @Html.EditorFor(model => model.SoNVDungMay, null, new { htmlAttributes = new { @class = "inputNumber", type = "number", min = 0, max = 10000 } })
+                @Html.EditorFor(model => model.SoNVDungMay, null, new { htmlAttributes = new { @class = "inputInt", type = "number", min = 0, max = 10000 } })
             </div>
             <span></span>
 
@@ -470,15 +467,37 @@
             const chenhLech = tong - dinhMuc;
 
             $("#Tong").val(tong);
-            $("#ChenhLech").val(chenhLech);
+            $("#ShotChenhLech").val(chenhLech);
         }
 
         $("#SoShotPX, #SoShotPRH, #DinhMuc").on("input", tinhTongVaChenh);
     });
 
-    $(document).on('input', '.inputNumber', function () {
+    $(document).on('input', '.inputInt', function () {
         this.value = this.value.replace(/[^0-9]/g, '');
+        let val = parseInt($(this).val());
+        if (isNaN(val) || val < 0 || val > 999999) {
+            $(this).val('');
+        }
     });
+
+
+    $(document).on('input', '.inputDecimal', function () {
+        let value = this.value;
+        value = value.replace(',', '.');
+        value = value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+        if (value.startsWith('.')) {
+            value = '0' + value;
+        }
+        const num = parseFloat(value);
+        if (!isNaN(num)) {
+            if (num < 0 || num > 10000) {
+                value = '';
+            }
+        }
+        this.value = value;
+    });
+
 </script>
 <style>
     .btn-input-icon i {
