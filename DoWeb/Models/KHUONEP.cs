@@ -23,6 +23,7 @@ namespace DoWeb.Models
         public Nullable<int> MayLanhHD { get; set; }
         public Nullable<int> NhietDoML { get; set; }
         public Nullable<int> TayRobotHD { get; set; }
+        public Nullable<int> CamBienTRB { get; set; }
         public Nullable<int> TinHieuTRB { get; set; }
         public Nullable<int> SoNVLenKhuon { get; set; }
         public Nullable<int> SoNVDungMay { get; set; }
@@ -31,15 +32,16 @@ namespace DoWeb.Models
         public Nullable<decimal> DiemTB { get; set; }
         public string XepLoai { get; set; }
         public Nullable<int> MaPhePham { get; set; }
-        public Nullable<int> CamBienTRB { get; set; }
-        public Nullable<long> MaKhuon { get; set; }
+        public Nullable<long> MaKhuonXuong { get; set; }
+        public Nullable<long> MaKhuonLen { get; set; }
     
         public virtual CHUKYNANGSUAT CHUKYNANGSUAT { get; set; }
         public virtual MayKhuon MayKhuon { get; set; }
+        public virtual MayKhuon MayKhuon1 { get; set; }
+        public virtual MayKhuon MayKhuon2 { get; set; }
         public virtual NGUYENLIEU NGUYENLIEU { get; set; }
         public virtual PHEPHAM PHEPHAM { get; set; }
         public virtual THOIGIANLENKHUON THOIGIANLENKHUON { get; set; }
         public virtual TRONGLUONG TRONGLUONG { get; set; }
-        public virtual MayKhuon MayKhuon1 { get; set; }
     }
 }

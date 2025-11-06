@@ -1,12 +1,14 @@
-﻿using DoWeb.Models;
+﻿using DoWeb.Helpers;
+using DoWeb.Models;
+using Helpers.linq.Dynamic;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Net;
-using System.IO;
-using System.Data.Entity;
 
 namespace DoWeb.Controllers
 {
@@ -19,71 +21,108 @@ namespace DoWeb.Controllers
             ViewBag.KhuonList = new SelectList(db.MayKhuons, "Id", "TenMayKhuon");
 
             var dskhuonep = db.KHUONEPs
-                .Include(p => p.MayKhuon).Include(p => p.MayKhuon1).ToList();
+                .Include(p => p.MayKhuon).Include(p => p.MayKhuon1).Include(p => p.MayKhuon2).ToList();
             return View(dskhuonep.ToList());
         }
-        public ActionResult SearchMay(string searchString)
+
+        // list khuon
+        [HttpGet]
+        public ActionResult LayDanhSachListKhuonSelect2(string searchTerm = "", int? pageSize = 5, int? pageNumber = 1)
         {
-            var query = db.MayKhuons.AsQueryable();
-            if (string.IsNullOrEmpty(searchString))
+            //string Return = null;
+            try
             {
-                query = query.Where(x => x.TenMayKhuon.Contains(searchString));
-            }
-            query = query.Where(x => x.Equipment.StartsWith("3"));
-            var mayKhuons = query
-                .Where(x => x.TenMayKhuon.Contains(searchString))
-                .Select(x => new
+                var lst = db.MayKhuons.AsQueryable()?.Where(x => x.Equipment.StartsWith("1")).ToList();
+
+                if (lst == null)
+                    lst = new List<MayKhuon>();
+
+                if (!string.IsNullOrEmpty(searchTerm))
                 {
-                    MaMayKhuon = x.Id,
-                    x.TenMayKhuon
-                })
-                .Take(10)
-                .ToList();
+                    lst = lst.Where(x => x.Equipment.Like(searchTerm) || x.TenMayKhuon.Like(searchTerm)).ToList();
+                }
 
-            return Json(mayKhuons, JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult SearchKhuon(string searchString)
-        {
-            var query = db.MayKhuons.AsQueryable();
+                var select2pagedResult = new Select2PagedResult();
 
-            if (string.IsNullOrEmpty(searchString))
-            {
-                query = query.Where(x => x.TenMayKhuon.Contains(searchString));
+                select2pagedResult.Total = lst.Count;
+                select2pagedResult.Results = lst.Select(x => new Select2OptionModel { id = x.Id, text = x.TenMayKhuon, textextra = $"({x.Equipment})" })
+                    .Skip((pageNumber
+                    .GetValueOrDefault(1) - 1) * pageSize
+                    .GetValueOrDefault(1))
+                    .Take(pageSize
+                    .GetValueOrDefault(1))
+                    .ToList();
+
+                return Json(select2pagedResult, JsonRequestBehavior.AllowGet);
             }
-            query = query.Where(x => x.Equipment.StartsWith("1"));
-            var mayKhuons = query
-                .Where(x => x.TenMayKhuon.Contains(searchString))
-                .Select(x => new
-                {
-                    MaKhuon = x.Id,
-                    x.TenMayKhuon
-                })
-                .Take(10)
-                .ToList();
-
-            return Json(mayKhuons, JsonRequestBehavior.AllowGet);
+            catch (Exception ex) { }
+            return new EmptyResult();
         }
 
-        public ActionResult SearchNguyenLieu(string searchString)
+        [HttpGet]
+        public ActionResult ListMaySelect2(string searchTerm = "", int? pageSize = 5, int? pageNumber = 1)
         {
-            var query = db.NGUYENLIEUx.AsQueryable();
-
-            if (string.IsNullOrEmpty(searchString))
+            try
             {
-                query = query.Where(x => x.TenNguyenLieu.Contains(searchString));
-            }
+                var list = db.MayKhuons.AsQueryable()?.Where(x => x.Equipment.StartsWith("3")).ToList();
 
-            var nlieu = query.Where(x => x.TenNguyenLieu.Contains(searchString))
-                .Select(x => new
+                if (list == null) list = new List<MayKhuon>();
+
+                if (!string.IsNullOrEmpty(searchTerm))
                 {
-                    MaNguyenLieu = x.ID,
-                    x.TenNguyenLieu
-                })
-                .Take(10)
-                .ToList();
+                    list = list.Where(x => x.Equipment.Like(searchTerm) || x.TenMayKhuon.Like(searchTerm)).ToList();
+                }
 
-            return Json(nlieu, JsonRequestBehavior.AllowGet);
+                var select2pagedResult = new Select2PagedResult();
+
+                select2pagedResult.Total = list.Count;
+
+                select2pagedResult.Results = list.Select(x => new Select2OptionModel { id = x.Id, text = x.TenMayKhuon, textextra = $"({x.Equipment})" })
+                    .Skip((pageNumber
+                    .GetValueOrDefault(1) - 1) * pageSize
+                    .GetValueOrDefault(1))
+                    .Take(pageSize
+                    .GetValueOrDefault(1))
+                    .ToList();
+
+                return Json(select2pagedResult, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex) { }
+            return new EmptyResult();
         }
+
+        [HttpGet]
+        public ActionResult ListNguyenLieuSelect2(string searchTerm = "", int? pageSize = 5, int? pageNumber = 1)
+        {
+            try
+            {
+                var list = db.NGUYENLIEUx.AsQueryable()?.ToList();
+
+                if (list == null) list = new List<NGUYENLIEU>();
+
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    list = list.Where(x => x.TenNguyenLieu.Like(searchTerm) || x.TenNguyenLieu.Like(searchTerm)).ToList();
+                }
+
+                var select2pagedResult = new Select2PagedResult();
+
+                select2pagedResult.Total = list.Count;
+
+                select2pagedResult.Results = list.Select(x => new Select2OptionModel { id = x.ID, text = x.TenNguyenLieu, textextra = $"({x.TiLePheTron}%)" })
+                    .Skip((pageNumber
+                    .GetValueOrDefault(1) - 1) * pageSize
+                    .GetValueOrDefault(1))
+                    .Take(pageSize
+                    .GetValueOrDefault(1))
+                    .ToList();
+
+                return Json(select2pagedResult, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex) { }
+            return new EmptyResult();
+        }
+
         public ActionResult Create()
         {
             return PartialView("_FormLenKhuon", new KHUONEP());

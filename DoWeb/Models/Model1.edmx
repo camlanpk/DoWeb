@@ -27,7 +27,6 @@
           <Property Name="MaThoiGian" Type="int" />
           <Property Name="MaCKNS" Type="int" />
           <Property Name="MaMayKhuon" Type="bigint" />
-          <Property Name="MaKhuon" Type="bigint" />
           <Property Name="MayLanhHD" Type="int" />
           <Property Name="NhietDoML" Type="int" />
           <Property Name="TayRobotHD" Type="int" />
@@ -40,6 +39,8 @@
           <Property Name="DiemTB" Type="decimal" Precision="4" Scale="2" />
           <Property Name="XepLoai" Type="nvarchar" MaxLength="10" />
           <Property Name="MaPhePham" Type="int" />
+          <Property Name="MaKhuonXuong" Type="bigint" />
+          <Property Name="MaKhuonLen" Type="bigint" />
         </EntityType>
         <EntityType Name="MayKhuon">
           <Key>
@@ -107,6 +108,102 @@
           <Property Name="BienPhap" Type="nvarchar" MaxLength="255" />
           <Property Name="ChamDiem" Type="int" />
         </EntityType>
+        <Association Name="FK_KHUONEP_CHUKYNANGSUAT">
+          <End Role="CHUKYNANGSUAT" Type="Self.CHUKYNANGSUAT" Multiplicity="0..1" />
+          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CHUKYNANGSUAT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaCKNS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_KHUONLEN">
+          <End Role="MayKhuon" Type="Self.MayKhuon" Multiplicity="0..1" />
+          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MayKhuon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaKhuonLen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_KHUONXUONG">
+          <End Role="MayKhuon" Type="Self.MayKhuon" Multiplicity="0..1" />
+          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MayKhuon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaKhuonXuong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_MAYKHUON">
+          <End Role="MayKhuon" Type="Self.MayKhuon" Multiplicity="0..1" />
+          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MayKhuon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaMayKhuon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_NGUYENLIEU">
+          <End Role="NGUYENLIEU" Type="Self.NGUYENLIEU" Multiplicity="0..1" />
+          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGUYENLIEU">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaNguyenLieu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_PHEPHAM">
+          <End Role="PHEPHAM" Type="Self.PHEPHAM" Multiplicity="0..1" />
+          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHEPHAM">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaPhePham" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_THOIGIAN">
+          <End Role="THOIGIANLENKHUON" Type="Self.THOIGIANLENKHUON" Multiplicity="0..1" />
+          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THOIGIANLENKHUON">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaThoiGian" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_TRONGLUONG">
+          <End Role="TRONGLUONG" Type="Self.TRONGLUONG" Multiplicity="0..1" />
+          <End Role="KHUONEP" Type="Self.KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRONGLUONG">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaTrongLuong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ProjectDBModelStoreContainer">
           <EntitySet Name="CHUKYNANGSUAT" EntityType="Self.CHUKYNANGSUAT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KHUONEP" EntityType="Self.KHUONEP" Schema="dbo" store:Type="Tables" />
@@ -115,19 +212,92 @@
           <EntitySet Name="PHEPHAM" EntityType="Self.PHEPHAM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="THOIGIANLENKHUON" EntityType="Self.THOIGIANLENKHUON" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRONGLUONG" EntityType="Self.TRONGLUONG" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_KHUONEP_CHUKYNANGSUAT" Association="Self.FK_KHUONEP_CHUKYNANGSUAT">
+            <End Role="CHUKYNANGSUAT" EntitySet="CHUKYNANGSUAT" />
+            <End Role="KHUONEP" EntitySet="KHUONEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_KHUONLEN" Association="Self.FK_KHUONEP_KHUONLEN">
+            <End Role="MayKhuon" EntitySet="MayKhuon" />
+            <End Role="KHUONEP" EntitySet="KHUONEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_KHUONXUONG" Association="Self.FK_KHUONEP_KHUONXUONG">
+            <End Role="MayKhuon" EntitySet="MayKhuon" />
+            <End Role="KHUONEP" EntitySet="KHUONEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_MAYKHUON" Association="Self.FK_KHUONEP_MAYKHUON">
+            <End Role="MayKhuon" EntitySet="MayKhuon" />
+            <End Role="KHUONEP" EntitySet="KHUONEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_NGUYENLIEU" Association="Self.FK_KHUONEP_NGUYENLIEU">
+            <End Role="NGUYENLIEU" EntitySet="NGUYENLIEU" />
+            <End Role="KHUONEP" EntitySet="KHUONEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_PHEPHAM" Association="Self.FK_KHUONEP_PHEPHAM">
+            <End Role="PHEPHAM" EntitySet="PHEPHAM" />
+            <End Role="KHUONEP" EntitySet="KHUONEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_THOIGIAN" Association="Self.FK_KHUONEP_THOIGIAN">
+            <End Role="THOIGIANLENKHUON" EntitySet="THOIGIANLENKHUON" />
+            <End Role="KHUONEP" EntitySet="KHUONEP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_TRONGLUONG" Association="Self.FK_KHUONEP_TRONGLUONG">
+            <End Role="TRONGLUONG" EntitySet="TRONGLUONG" />
+            <End Role="KHUONEP" EntitySet="KHUONEP" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjectDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ProjectDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CHUKYNANGSUATs" EntityType="ProjectDBModel.CHUKYNANGSUAT" />
+          <EntitySet Name="KHUONEPs" EntityType="ProjectDBModel.KHUONEP" />
+          <EntitySet Name="MayKhuons" EntityType="ProjectDBModel.MayKhuon" />
+          <EntitySet Name="NGUYENLIEUx" EntityType="ProjectDBModel.NGUYENLIEU" />
+          <EntitySet Name="PHEPHAMs" EntityType="ProjectDBModel.PHEPHAM" />
+          <EntitySet Name="THOIGIANLENKHUONs" EntityType="ProjectDBModel.THOIGIANLENKHUON" />
+          <EntitySet Name="TRONGLUONGs" EntityType="ProjectDBModel.TRONGLUONG" />
+          <AssociationSet Name="FK_KHUONEP_CHUKYNANGSUAT" Association="ProjectDBModel.FK_KHUONEP_CHUKYNANGSUAT">
+            <End Role="CHUKYNANGSUAT" EntitySet="CHUKYNANGSUATs" />
+            <End Role="KHUONEP" EntitySet="KHUONEPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_KHUONLEN" Association="ProjectDBModel.FK_KHUONEP_KHUONLEN">
+            <End Role="MayKhuon" EntitySet="MayKhuons" />
+            <End Role="KHUONEP" EntitySet="KHUONEPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_KHUONXUONG" Association="ProjectDBModel.FK_KHUONEP_KHUONXUONG">
+            <End Role="MayKhuon" EntitySet="MayKhuons" />
+            <End Role="KHUONEP" EntitySet="KHUONEPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_MAYKHUON" Association="ProjectDBModel.FK_KHUONEP_MAYKHUON">
+            <End Role="MayKhuon" EntitySet="MayKhuons" />
+            <End Role="KHUONEP" EntitySet="KHUONEPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_NGUYENLIEU" Association="ProjectDBModel.FK_KHUONEP_NGUYENLIEU">
+            <End Role="NGUYENLIEU" EntitySet="NGUYENLIEUx" />
+            <End Role="KHUONEP" EntitySet="KHUONEPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_PHEPHAM" Association="ProjectDBModel.FK_KHUONEP_PHEPHAM">
+            <End Role="PHEPHAM" EntitySet="PHEPHAMs" />
+            <End Role="KHUONEP" EntitySet="KHUONEPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_THOIGIAN" Association="ProjectDBModel.FK_KHUONEP_THOIGIAN">
+            <End Role="THOIGIANLENKHUON" EntitySet="THOIGIANLENKHUONs" />
+            <End Role="KHUONEP" EntitySet="KHUONEPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KHUONEP_TRONGLUONG" Association="ProjectDBModel.FK_KHUONEP_TRONGLUONG">
+            <End Role="TRONGLUONG" EntitySet="TRONGLUONGs" />
+            <End Role="KHUONEP" EntitySet="KHUONEPs" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="CHUKYNANGSUAT">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Chuan" Type="Decimal" />
-          <Property Name="ThucTe" Type="Decimal" />
-          <Property Name="ChenhLech" Type="Decimal" />
+          <Property Name="Chuan" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="ThucTe" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="ChenhLech" Type="Decimal" Precision="6" Scale="2" />
           <Property Name="LyDoLech" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="BienPhap" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ChamDiem" Type="Int32" />
@@ -146,23 +316,25 @@
           <Property Name="MayLanhHD" Type="Int32" />
           <Property Name="NhietDoML" Type="Int32" />
           <Property Name="TayRobotHD" Type="Int32" />
+          <Property Name="CamBienTRB" Type="Int32" />
           <Property Name="TinHieuTRB" Type="Int32" />
           <Property Name="SoNVLenKhuon" Type="Int32" />
           <Property Name="SoNVDungMay" Type="Int32" />
           <Property Name="MaNguyenLieu" Type="Int32" />
           <Property Name="TenKCS" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="DiemTB" Type="Decimal" />
+          <Property Name="DiemTB" Type="Decimal" Precision="4" Scale="2" />
           <Property Name="XepLoai" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="MaPhePham" Type="Int32" />
+          <Property Name="MaKhuonXuong" Type="Int64" />
+          <Property Name="MaKhuonLen" Type="Int64" />
           <NavigationProperty Name="CHUKYNANGSUAT" Relationship="ProjectDBModel.FK_KHUONEP_CHUKYNANGSUAT" FromRole="KHUONEP" ToRole="CHUKYNANGSUAT" />
-          <NavigationProperty Name="MayKhuon" Relationship="ProjectDBModel.FK_KHUONEP_MAYKHUON" FromRole="KHUONEP" ToRole="MayKhuon" />
+          <NavigationProperty Name="MayKhuon" Relationship="ProjectDBModel.FK_KHUONEP_KHUONLEN" FromRole="KHUONEP" ToRole="MayKhuon" />
+          <NavigationProperty Name="MayKhuon1" Relationship="ProjectDBModel.FK_KHUONEP_KHUONXUONG" FromRole="KHUONEP" ToRole="MayKhuon" />
+          <NavigationProperty Name="MayKhuon2" Relationship="ProjectDBModel.FK_KHUONEP_MAYKHUON" FromRole="KHUONEP" ToRole="MayKhuon" />
           <NavigationProperty Name="NGUYENLIEU" Relationship="ProjectDBModel.FK_KHUONEP_NGUYENLIEU" FromRole="KHUONEP" ToRole="NGUYENLIEU" />
           <NavigationProperty Name="PHEPHAM" Relationship="ProjectDBModel.FK_KHUONEP_PHEPHAM" FromRole="KHUONEP" ToRole="PHEPHAM" />
           <NavigationProperty Name="THOIGIANLENKHUON" Relationship="ProjectDBModel.FK_KHUONEP_THOIGIAN" FromRole="KHUONEP" ToRole="THOIGIANLENKHUON" />
           <NavigationProperty Name="TRONGLUONG" Relationship="ProjectDBModel.FK_KHUONEP_TRONGLUONG" FromRole="KHUONEP" ToRole="TRONGLUONG" />
-          <Property Name="CamBienTRB" Type="Int32" />
-          <Property Name="MaKhuon" Type="Int64" />
-          <NavigationProperty Name="MayKhuon1" Relationship="ProjectDBModel.FK_KHUONEP_KHUON" FromRole="KHUONEP" ToRole="MayKhuon" />
         </EntityType>
         <EntityType Name="MayKhuon">
           <Key>
@@ -182,8 +354,9 @@
           <Property Name="NgayTao" Type="DateTime" Precision="3" />
           <Property Name="WorkCenter" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="KhuVuc" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="KHUONEPs" Relationship="ProjectDBModel.FK_KHUONEP_MAYKHUON" FromRole="MayKhuon" ToRole="KHUONEP" />
-          <NavigationProperty Name="KHUONEPs1" Relationship="ProjectDBModel.FK_KHUONEP_KHUON" FromRole="MayKhuon" ToRole="KHUONEP" />
+          <NavigationProperty Name="KHUONEPs" Relationship="ProjectDBModel.FK_KHUONEP_KHUONLEN" FromRole="MayKhuon" ToRole="KHUONEP" />
+          <NavigationProperty Name="KHUONEPs1" Relationship="ProjectDBModel.FK_KHUONEP_KHUONXUONG" FromRole="MayKhuon" ToRole="KHUONEP" />
+          <NavigationProperty Name="KHUONEPs2" Relationship="ProjectDBModel.FK_KHUONEP_MAYKHUON" FromRole="MayKhuon" ToRole="KHUONEP" />
         </EntityType>
         <EntityType Name="NGUYENLIEU">
           <Key>
@@ -228,51 +401,14 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Chuan" Type="Decimal" />
-          <Property Name="ThucTe" Type="Decimal" />
-          <Property Name="ChenhLech" Type="Decimal" />
+          <Property Name="Chuan" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="ThucTe" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="ChenhLech" Type="Decimal" Precision="6" Scale="2" />
           <Property Name="LyDoLech" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="BienPhap" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ChamDiem" Type="Int32" />
           <NavigationProperty Name="KHUONEPs" Relationship="ProjectDBModel.FK_KHUONEP_TRONGLUONG" FromRole="TRONGLUONG" ToRole="KHUONEP" />
         </EntityType>
-        <EntityContainer Name="ProjectDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CHUKYNANGSUATs" EntityType="Self.CHUKYNANGSUAT" />
-          <EntitySet Name="KHUONEPs" EntityType="Self.KHUONEP" />
-          <EntitySet Name="MayKhuons" EntityType="Self.MayKhuon" />
-          <EntitySet Name="NGUYENLIEUx" EntityType="Self.NGUYENLIEU" />
-          <EntitySet Name="PHEPHAMs" EntityType="Self.PHEPHAM" />
-          <EntitySet Name="THOIGIANLENKHUONs" EntityType="Self.THOIGIANLENKHUON" />
-          <EntitySet Name="TRONGLUONGs" EntityType="Self.TRONGLUONG" />
-          <AssociationSet Name="FK_KHUONEP_CHUKYNANGSUAT" Association="ProjectDBModel.FK_KHUONEP_CHUKYNANGSUAT">
-            <End Role="CHUKYNANGSUAT" EntitySet="CHUKYNANGSUATs" />
-            <End Role="KHUONEP" EntitySet="KHUONEPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_MAYKHUON" Association="ProjectDBModel.FK_KHUONEP_MAYKHUON">
-            <End Role="MayKhuon" EntitySet="MayKhuons" />
-            <End Role="KHUONEP" EntitySet="KHUONEPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_NGUYENLIEU" Association="ProjectDBModel.FK_KHUONEP_NGUYENLIEU">
-            <End Role="NGUYENLIEU" EntitySet="NGUYENLIEUx" />
-            <End Role="KHUONEP" EntitySet="KHUONEPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_PHEPHAM" Association="ProjectDBModel.FK_KHUONEP_PHEPHAM">
-            <End Role="PHEPHAM" EntitySet="PHEPHAMs" />
-            <End Role="KHUONEP" EntitySet="KHUONEPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_THOIGIAN" Association="ProjectDBModel.FK_KHUONEP_THOIGIAN">
-            <End Role="THOIGIANLENKHUON" EntitySet="THOIGIANLENKHUONs" />
-            <End Role="KHUONEP" EntitySet="KHUONEPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_TRONGLUONG" Association="ProjectDBModel.FK_KHUONEP_TRONGLUONG">
-            <End Role="TRONGLUONG" EntitySet="TRONGLUONGs" />
-            <End Role="KHUONEP" EntitySet="KHUONEPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KHUONEP_KHUON" Association="ProjectDBModel.FK_KHUONEP_KHUON">
-            <End Role="MayKhuon" EntitySet="MayKhuons" />
-            <End Role="KHUONEP" EntitySet="KHUONEPs" />
-          </AssociationSet>
-        </EntityContainer>
         <Association Name="FK_KHUONEP_CHUKYNANGSUAT">
           <End Type="ProjectDBModel.CHUKYNANGSUAT" Role="CHUKYNANGSUAT" Multiplicity="0..1" />
           <End Type="ProjectDBModel.KHUONEP" Role="KHUONEP" Multiplicity="*" />
@@ -282,6 +418,30 @@
             </Principal>
             <Dependent Role="KHUONEP">
               <PropertyRef Name="MaCKNS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_KHUONLEN">
+          <End Type="ProjectDBModel.MayKhuon" Role="MayKhuon" Multiplicity="0..1" />
+          <End Type="ProjectDBModel.KHUONEP" Role="KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MayKhuon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaKhuonLen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KHUONEP_KHUONXUONG">
+          <End Type="ProjectDBModel.MayKhuon" Role="MayKhuon" Multiplicity="0..1" />
+          <End Type="ProjectDBModel.KHUONEP" Role="KHUONEP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MayKhuon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="KHUONEP">
+              <PropertyRef Name="MaKhuonXuong" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -345,19 +505,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_KHUONEP_KHUON">
-          <End Type="ProjectDBModel.MayKhuon" Role="MayKhuon" Multiplicity="0..1" />
-          <End Type="ProjectDBModel.KHUONEP" Role="KHUONEP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MayKhuon">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="KHUONEP">
-              <PropertyRef Name="MaKhuon" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -366,109 +514,110 @@
           <EntitySetMapping Name="CHUKYNANGSUATs">
             <EntityTypeMapping TypeName="ProjectDBModel.CHUKYNANGSUAT">
               <MappingFragment StoreEntitySet="CHUKYNANGSUAT">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Chuan" ColumnName="Chuan" />
-                <ScalarProperty Name="ThucTe" ColumnName="ThucTe" />
-                <ScalarProperty Name="ChenhLech" ColumnName="ChenhLech" />
-                <ScalarProperty Name="LyDoLech" ColumnName="LyDoLech" />
-                <ScalarProperty Name="BienPhap" ColumnName="BienPhap" />
                 <ScalarProperty Name="ChamDiem" ColumnName="ChamDiem" />
+                <ScalarProperty Name="BienPhap" ColumnName="BienPhap" />
+                <ScalarProperty Name="LyDoLech" ColumnName="LyDoLech" />
+                <ScalarProperty Name="ChenhLech" ColumnName="ChenhLech" />
+                <ScalarProperty Name="ThucTe" ColumnName="ThucTe" />
+                <ScalarProperty Name="Chuan" ColumnName="Chuan" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="KHUONEPs">
             <EntityTypeMapping TypeName="ProjectDBModel.KHUONEP">
               <MappingFragment StoreEntitySet="KHUONEP">
-                <ScalarProperty Name="CamBienTRB" ColumnName="CamBienTRB" />
-                <ScalarProperty Name="MaKhuon" ColumnName="MaKhuon" />
-                <ScalarProperty Name="MaMayKhuon" ColumnName="MaMayKhuon" />
+                <ScalarProperty Name="MaKhuonLen" ColumnName="MaKhuonLen" />
+                <ScalarProperty Name="MaKhuonXuong" ColumnName="MaKhuonXuong" />
                 <ScalarProperty Name="MaPhePham" ColumnName="MaPhePham" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="HotRunner" ColumnName="HotRunner" />
-                <ScalarProperty Name="MaTrongLuong" ColumnName="MaTrongLuong" />
-                <ScalarProperty Name="MaThoiGian" ColumnName="MaThoiGian" />
-                <ScalarProperty Name="MaCKNS" ColumnName="MaCKNS" />
-                <ScalarProperty Name="MayLanhHD" ColumnName="MayLanhHD" />
-                <ScalarProperty Name="NhietDoML" ColumnName="NhietDoML" />
-                <ScalarProperty Name="TayRobotHD" ColumnName="TayRobotHD" />
-                <ScalarProperty Name="TinHieuTRB" ColumnName="TinHieuTRB" />
-                <ScalarProperty Name="SoNVLenKhuon" ColumnName="SoNVLenKhuon" />
-                <ScalarProperty Name="SoNVDungMay" ColumnName="SoNVDungMay" />
-                <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
-                <ScalarProperty Name="TenKCS" ColumnName="TenKCS" />
-                <ScalarProperty Name="DiemTB" ColumnName="DiemTB" />
                 <ScalarProperty Name="XepLoai" ColumnName="XepLoai" />
+                <ScalarProperty Name="DiemTB" ColumnName="DiemTB" />
+                <ScalarProperty Name="TenKCS" ColumnName="TenKCS" />
+                <ScalarProperty Name="MaNguyenLieu" ColumnName="MaNguyenLieu" />
+                <ScalarProperty Name="SoNVDungMay" ColumnName="SoNVDungMay" />
+                <ScalarProperty Name="SoNVLenKhuon" ColumnName="SoNVLenKhuon" />
+                <ScalarProperty Name="TinHieuTRB" ColumnName="TinHieuTRB" />
+                <ScalarProperty Name="CamBienTRB" ColumnName="CamBienTRB" />
+                <ScalarProperty Name="TayRobotHD" ColumnName="TayRobotHD" />
+                <ScalarProperty Name="NhietDoML" ColumnName="NhietDoML" />
+                <ScalarProperty Name="MayLanhHD" ColumnName="MayLanhHD" />
+                <ScalarProperty Name="MaMayKhuon" ColumnName="MaMayKhuon" />
+                <ScalarProperty Name="MaCKNS" ColumnName="MaCKNS" />
+                <ScalarProperty Name="MaThoiGian" ColumnName="MaThoiGian" />
+                <ScalarProperty Name="MaTrongLuong" ColumnName="MaTrongLuong" />
+                <ScalarProperty Name="HotRunner" ColumnName="HotRunner" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MayKhuons">
             <EntityTypeMapping TypeName="ProjectDBModel.MayKhuon">
               <MappingFragment StoreEntitySet="MayKhuon">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
-                <ScalarProperty Name="MaModel" ColumnName="MaModel" />
-                <ScalarProperty Name="MaTaiSan" ColumnName="MaTaiSan" />
-                <ScalarProperty Name="TenMayKhuon" ColumnName="TenMayKhuon" />
-                <ScalarProperty Name="TenNganCuaMay" ColumnName="TenNganCuaMay" />
-                <ScalarProperty Name="ViTri" ColumnName="ViTri" />
-                <ScalarProperty Name="MaLoaiMay" ColumnName="MaLoaiMay" />
-                <ScalarProperty Name="LoaiMay" ColumnName="LoaiMay" />
-                <ScalarProperty Name="DangSuDung" ColumnName="DangSuDung" />
-                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
-                <ScalarProperty Name="WorkCenter" ColumnName="WorkCenter" />
                 <ScalarProperty Name="KhuVuc" ColumnName="KhuVuc" />
+                <ScalarProperty Name="WorkCenter" ColumnName="WorkCenter" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="DangSuDung" ColumnName="DangSuDung" />
+                <ScalarProperty Name="LoaiMay" ColumnName="LoaiMay" />
+                <ScalarProperty Name="MaLoaiMay" ColumnName="MaLoaiMay" />
+                <ScalarProperty Name="ViTri" ColumnName="ViTri" />
+                <ScalarProperty Name="TenNganCuaMay" ColumnName="TenNganCuaMay" />
+                <ScalarProperty Name="TenMayKhuon" ColumnName="TenMayKhuon" />
+                <ScalarProperty Name="MaTaiSan" ColumnName="MaTaiSan" />
+                <ScalarProperty Name="MaModel" ColumnName="MaModel" />
+                <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="NGUYENLIEUx">
             <EntityTypeMapping TypeName="ProjectDBModel.NGUYENLIEU">
               <MappingFragment StoreEntitySet="NGUYENLIEU">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TenNguyenLieu" ColumnName="TenNguyenLieu" />
                 <ScalarProperty Name="TiLePheTron" ColumnName="TiLePheTron" />
+                <ScalarProperty Name="TenNguyenLieu" ColumnName="TenNguyenLieu" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PHEPHAMs">
             <EntityTypeMapping TypeName="ProjectDBModel.PHEPHAM">
               <MappingFragment StoreEntitySet="PHEPHAM">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
-                <ScalarProperty Name="SLPheXa" ColumnName="SLPheXa" />
-                <ScalarProperty Name="SoShotPX" ColumnName="SoShotPX" />
-                <ScalarProperty Name="SoShotPRH" ColumnName="SoShotPRH" />
-                <ScalarProperty Name="Tong" ColumnName="Tong" />
-                <ScalarProperty Name="ChenhLech" ColumnName="ChenhLech" />
-                <ScalarProperty Name="LyDoLech" ColumnName="LyDoLech" />
-                <ScalarProperty Name="BienPhap" ColumnName="BienPhap" />
                 <ScalarProperty Name="ChamDiem" ColumnName="ChamDiem" />
+                <ScalarProperty Name="BienPhap" ColumnName="BienPhap" />
+                <ScalarProperty Name="LyDoLech" ColumnName="LyDoLech" />
+                <ScalarProperty Name="ChenhLech" ColumnName="ChenhLech" />
+                <ScalarProperty Name="Tong" ColumnName="Tong" />
+                <ScalarProperty Name="SoShotPRH" ColumnName="SoShotPRH" />
+                <ScalarProperty Name="SoShotPX" ColumnName="SoShotPX" />
+                <ScalarProperty Name="SLPheXa" ColumnName="SLPheXa" />
+                <ScalarProperty Name="DinhMuc" ColumnName="DinhMuc" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="THOIGIANLENKHUONs">
             <EntityTypeMapping TypeName="ProjectDBModel.THOIGIANLENKHUON">
               <MappingFragment StoreEntitySet="THOIGIANLENKHUON">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Chuan" ColumnName="Chuan" />
-                <ScalarProperty Name="ThucTe" ColumnName="ThucTe" />
-                <ScalarProperty Name="ChenhLech" ColumnName="ChenhLech" />
-                <ScalarProperty Name="LyDoLech" ColumnName="LyDoLech" />
-                <ScalarProperty Name="BienPhap" ColumnName="BienPhap" />
                 <ScalarProperty Name="ChamDiem" ColumnName="ChamDiem" />
+                <ScalarProperty Name="BienPhap" ColumnName="BienPhap" />
+                <ScalarProperty Name="LyDoLech" ColumnName="LyDoLech" />
+                <ScalarProperty Name="ChenhLech" ColumnName="ChenhLech" />
+                <ScalarProperty Name="ThucTe" ColumnName="ThucTe" />
+                <ScalarProperty Name="Chuan" ColumnName="Chuan" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TRONGLUONGs">
             <EntityTypeMapping TypeName="ProjectDBModel.TRONGLUONG">
               <MappingFragment StoreEntitySet="TRONGLUONG">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Chuan" ColumnName="Chuan" />
-                <ScalarProperty Name="ThucTe" ColumnName="ThucTe" />
-                <ScalarProperty Name="ChenhLech" ColumnName="ChenhLech" />
-                <ScalarProperty Name="LyDoLech" ColumnName="LyDoLech" />
-                <ScalarProperty Name="BienPhap" ColumnName="BienPhap" />
                 <ScalarProperty Name="ChamDiem" ColumnName="ChamDiem" />
+                <ScalarProperty Name="BienPhap" ColumnName="BienPhap" />
+                <ScalarProperty Name="LyDoLech" ColumnName="LyDoLech" />
+                <ScalarProperty Name="ChenhLech" ColumnName="ChenhLech" />
+                <ScalarProperty Name="ThucTe" ColumnName="ThucTe" />
+                <ScalarProperty Name="Chuan" ColumnName="Chuan" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

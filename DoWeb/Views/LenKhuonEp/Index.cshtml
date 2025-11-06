@@ -4,7 +4,9 @@
 }
 <link href="~/Content/MyStyle.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+@Scripts.Render("/Scripts/MyScript.js")
 
+@Scripts.Render("/Scripts/ActionCommon.js")
 <h2>Danh sách lên khuôn ép</h2>
 <button class="btn btn-primary" onclick="openPopup('@Url.Action("Create")')">Thêm mới</button>
 
@@ -12,9 +14,11 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Tên khuôn</th>
+            <th>Tên Máy</th>
             <th>Hot Runner</th>
-            <th>Tên máy</th>
+            <th>Tên Khuôn lên</th>
+            <th>Tên Khuôn xuống</th>
+            <th>Tên nguyên liệu</th>
             <th>Điểm TB</th>
             <th>Xếp loại</th>
         </tr>
@@ -24,9 +28,11 @@
         {
             <tr>
                 <td>@a.ID</td>
-                <td>@(a.MayKhuon1?.TenMayKhuon ?? "Không có")</td>
+                <td>@(a.MayKhuon2?.TenMayKhuon ?? "Không có")</td>
                 <td>@(a.HotRunner == 1 ? "Có" : "Không")</td>
                 <td>@(a.MayKhuon?.TenMayKhuon ?? "Không có")</td>
+                <td>@(a.MayKhuon1?.TenMayKhuon ?? "Không có")</td>
+                <td>@(a.NGUYENLIEU?.TenNguyenLieu ?? "Không có")</td>
                 <td>@a.DiemTB</td>
                 <td>@a.XepLoai</td>
             </tr>
@@ -43,207 +49,25 @@
 
 <!--SCRIPT-->
 <script>
+    //Mở Popup
     function openPopup(url) {
         $("#formModal .modal-content").load(url, function () {
             $("#formModal").modal("show");
             initSearch();
+            initScript();
         });
     }
 
     function closePopup() {
         $("#formModal").modal("hide");
     }
-        //Search cho máy
+
     function initSearch() {
-        var $searchInputMay = $("#searchInputMay", "#formModal .modal-content");
-        var $searchResultsMay = $("#searchResultsMay", "#formModal .modal-content");
-        var $selectedMayId = $("#selectedMayId", "#formModal .modal-content");
-        var $btnShowAllMay = $("#btnShowAllMay", "#formModal .modal-content");
-        var $btnClearMay = $("#btnClearMay", "#formModal .modal-content");
 
-        $searchInputMay.on("keyup", function () {
-            var searchValue = $(this).val().trim();
+        //select2
+        var $Modal = $('#formModal');
+        InitLoadDataSelect2Ajax($Modal);
 
-            if (searchValue.length < 1) {
-                $searchResultsMay.hide();
-                $selectedMayId.val('');
-                return;
-            }
-            loadMayList(searchValue);
-        });
-
-        $btnShowAllMay.on("click", function () {
-            var isVisible = $searchResultsMay.is(":visible");
-            if (isVisible) {
-                $searchResultsMay.hide();
-            } else {
-                loadMayList("");
-            }
-        });
-        $btnClearMay.on("click", function () {
-            $searchInputMay.val('');
-            $selectedMayId.val('');
-            $searchResultsMay.hide();
-        });
-
-        $(document).on("click", "#searchResultsMay li", function () {
-            var $this = $(this);
-            $searchInputMay.val($this.text());
-            $selectedMayId.val($this.data("mamaykhuon"));
-            $searchResultsMay.hide();
-        });
-
-        function loadMayList(searchValue) {
-            $.ajax({
-                url: '@Url.Action("SearchMay", "LenKhuonEp")',
-                type: 'GET',
-                data: { searchString: searchValue },
-                success: function (data) {
-                    $searchResultsMay.empty();
-                    if (data.length > 0) {
-                        $.each(data, function (i, item) {
-                            $searchResultsMay.append(
-                                '<li class="list-group-item list-group-item-action" data-mamaykhuon="' +
-                                item.MaMayKhuon + '">' + item.TenMayKhuon + '</li>'
-                            );
-                        });
-                        $searchResultsMay.show();
-                    } else {
-                        $searchResultsMay.hide();
-                    }
-                }
-            });
-        }
-
-        $(document).on("click", function (e) {
-            if (!$(e.target).closest('#searchInputMay, #btnShowAllMay').length) {
-                $searchResultsMay.hide();
-            }
-        });
-
-        // Search cho nguyên liệu
-        var $searchInputNguyenLieu = $("#searchInputNguyenLieu", "#formModal .modal-content");
-        var $searchResultsNguyenLieu = $("#searchResultsNguyenLieu", "#formModal .modal-content");
-        var $selectedNguyenLieuId = $("#selectedNguyenLieuId", "#formModal .modal-content");
-        var $btnShowAllNguyenLieu = $("#btnShowAllNguyenLieu", "#formModal .modal-content");
-        var $btnClearNguyenLieu = $("#btnClearNguyenLieu", "#formModal .modal-content");
-
-
-        $searchInputNguyenLieu.on("keyup", function () {
-            var searchValue = $(this).val().trim();
-            if (searchValue.length < 1) {
-                $searchResultsNguyenLieu.hide();
-                $selectedNguyenLieuId.val('');
-                return;
-            }
-            loadNguyenLieuList(searchValue);
-        });
-        $btnShowAllNguyenLieu.on("click", function () {
-            var isVisible = $searchResultsNguyenLieu.is(":visible");
-            if (isVisible) {
-                $searchResultsNguyenLieu.hide();
-            } else {
-                loadNguyenLieuList("");
-            }
-        });
-        $btnClearNguyenLieu.on("click", function () {
-            $searchInputNguyenLieu.val('');
-            $selectedNguyenLieuId.val('');
-            $searchResultsNguyenLieu.hide();
-        });
-
-        function loadNguyenLieuList(searchValue) {
-            $.ajax({
-                url: '@Url.Action("SearchNguyenLieu", "LenKhuonEp")',
-                type: 'GET',
-                data: { searchString: searchValue },
-                success: function (data) {
-                    $searchResultsNguyenLieu.empty();
-                    if (data.length > 0) {
-                        $.each(data, function (i, item) {
-                            $searchResultsNguyenLieu.append('<li class="list-group-item list-group-item-action" data-manguyenlieu="' + item.MaNguyenLieu + '">' + item.TenNguyenLieu + '</li>');
-                        });
-                        $searchResultsNguyenLieu.show();
-                    } else {
-                        $searchResultsNguyenLieu.hide();
-                    }
-                }
-            });
-        }
-        $(document).on("click", "#searchResultsNguyenLieu li", function () {
-            var $this = $(this);
-            $searchInputNguyenLieu.val($this.text());
-            $selectedNguyenLieuId.val($this.data("manguyenlieu"));
-            $searchResultsNguyenLieu.hide();
-        });
-        $(document).on("click", function (e) {
-            if (!$(e.target).closest('#searchInputNguyenLieu, #searchResultsNguyenLieu, #btnShowAllNguyenLieu, #btnClearNguyenLieu').length) {
-                $searchResultsNguyenLieu.hide();
-            }
-        });
-
-
-        // Search cho Khuôn
-        var $searchInputKhuon = $("#searchInputKhuon", "#formModal .modal-content");
-        var $searchResultsKhuon = $("#searchResultsKhuon", "#formModal .modal-content");
-        var $selectedKhuonId = $("#selectedKhuonId", "#formModal .modal-content");
-        var $btnShowAllKhuon = $("#btnShowAllKhuon", "#formModal .modal-content");
-        var $btnClearKhuon = $("#btnClearKhuon", "#formModal .modal-content");
-
-
-        $searchInputKhuon.on("keyup", function () {
-            var searchValue = $(this).val().trim();
-            if (searchValue.length < 1) {
-                $searchResultsKhuon.hide();
-                $selectedKhuonId.val('');
-                return;
-            }
-            loadKhuonList(searchValue);
-        });
-        $btnShowAllKhuon.on("click", function () {
-            var isVisible = $searchResultsKhuon.is(":visible");
-            if (isVisible) {
-                $searchResultsKhuon.hide();
-            } else {
-                loadKhuonList("");
-            }
-        });
-        $btnClearKhuon.on("click", function () {
-            $searchInputKhuon.val('');
-            $selectedKhuonId.val('');
-            $searchResultsKhuon.hide();
-        });
-        function loadKhuonList(searchValue) {
-            $.ajax({
-                url: '@Url.Action("SearchKhuon", "LenKhuonEp")',
-                type: 'GET',
-                data: { searchString: searchValue },
-                success: function (data) {
-                    $searchResultsKhuon.empty();
-                    if (data.length > 0) {
-                        $.each(data, function (i, item) {
-                            $searchResultsKhuon.append('<li class="list-group-item list-group-item-action" data-makhuon="' + item.MaKhuon + '">' + item.TenMayKhuon + '</li>');
-                        });
-                        $searchResultsKhuon.show();
-                    } else {
-                        $searchResultsKhuon.hide();
-                    }
-                }
-            });
-        }
-        $(document).on("click", "#searchResultsKhuon li", function () {
-            var $this = $(this);
-            $searchInputKhuon.val($this.text());
-            $selectedKhuonId.val($this.data("makhuon"));
-            $searchResultsKhuon.hide();
-            $("#ddlKhuon", "#formModal .modal-content").val($this.data("makhuon"));
-
-        });
-        $(document).on("click", function (e) {
-            if (!$(e.target).closest('#searchInputKhuon, #searchResultsKhuon, #btnShowAllKhuon, #btnClearKhuon').length) {
-                $searchResultsKhuon.hide();
-            }
-        });
     }
 
 </script>

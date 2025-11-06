@@ -4,14 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7f9f2de60c2f4cd2802c6a63c8796fb0" Name="Diagram1" ZoomLevel="82" ShowGrid="true" SnapToGrid="false" DisplayType="false">
-        <EntityTypeShape EntityType="ProjectDBModel.CHUKYNANGSUAT" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectDBModel.KHUONEP" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectDBModel.MayKhuon" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectDBModel.NGUYENLIEU" Width="1.5" PointX="4.75" PointY="5.2418699376285076" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectDBModel.PHEPHAM" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectDBModel.THOIGIANLENKHUON" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectDBModel.TRONGLUONG" Width="1.5" PointX="0.78048780374228954" PointY="3.9898375384509563" IsExpanded="true" />
+      <Diagram DiagramId="7f9f2de60c2f4cd2802c6a63c8796fb0" Name="Diagram1" ZoomLevel="80" ShowGrid="false" SnapToGrid="false" DisplayType="false">
+        <EntityTypeShape EntityType="ProjectDBModel.CHUKYNANGSUAT" Width="1.5000000000000002" PointX="0.7500005000000004" PointY="16.806327962239585" />
+        <EntityTypeShape EntityType="ProjectDBModel.KHUONEP" Width="1.5000000000000004" PointX="3.0000005000000005" PointY="1.1451609700520837" />
+        <EntityTypeShape EntityType="ProjectDBModel.MayKhuon" Width="1.5" PointX="0.75" PointY="2.2028188476562516" />
+        <EntityTypeShape EntityType="ProjectDBModel.NGUYENLIEU" Width="1.5000000000000002" PointX="0.7500005000000004" PointY="10.961152180989583" />
+        <EntityTypeShape EntityType="ProjectDBModel.PHEPHAM" Width="1.5000000000000002" PointX="0.7500005000000004" PointY="20.113518717447917" />
+        <EntityTypeShape EntityType="ProjectDBModel.THOIGIANLENKHUON" Width="1.5000000000000002" PointX="0.7500005000000004" PointY="13.49913720703125" />
+        <EntityTypeShape EntityType="ProjectDBModel.TRONGLUONG" Width="1.5000000000000002" PointX="0.7500005000000004" PointY="7.6539614257812509" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_CHUKYNANGSUAT" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_KHUONLEN" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_KHUONXUONG" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_MAYKHUON" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_NGUYENLIEU" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_PHEPHAM" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_THOIGIAN" />
+        <AssociationConnector Association="ProjectDBModel.FK_KHUONEP_TRONGLUONG" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

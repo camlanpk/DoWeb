@@ -19,6 +19,7 @@ namespace DoWeb.Models
         {
             this.KHUONEPs = new HashSet<KHUONEP>();
             this.KHUONEPs1 = new HashSet<KHUONEP>();
+            this.KHUONEPs2 = new HashSet<KHUONEP>();
         }
     
         public long Id { get; set; }
@@ -40,5 +41,7 @@ namespace DoWeb.Models
         public virtual ICollection<KHUONEP> KHUONEPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KHUONEP> KHUONEPs1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<KHUONEP> KHUONEPs2 { get; set; }
     }
 }
