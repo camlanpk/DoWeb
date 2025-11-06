@@ -1,1 +1,161 @@
-﻿use master  create database ProjectDB  use ProjectDB  create table KHUONEP( 	ID INT IDENTITY(1,1) primary key NOT NULL, 	HotRunner int null,		 	MaTrongLuong int null,	 	MaThoiGian int null,	 	MaCKNS int null,		 	MaMayKhuon bigint null,	 	MaKhuon bigint null,	 	MayLanhHD int null,		 	NhietDoML int null,		 	TayRobotHD int null,	 	CamBienTRB int null,	 	TinHieuTRB int null,	 	SoNVLenKhuon int null,	 	SoNVDungMay int null,	 	MaNguyenLieu int null,		 	TenKCS nvarchar(10) null,	 	DiemTB DECIMAL(4,2) NULL, 	XepLoai nvarchar(10) null, 	MaPhePham int null,	 ); create table THOIGIANLENKHUON( 	ID INT IDENTITY(1,1) PRIMARY KEY not null, 	Chuan decimal(5,2) null, 	ThucTe decimal(5,2) null, 	ChenhLech decimal(5,2) null, 	LyDoLech nvarchar(255) null, 	BienPhap nvarchar(255) null, 	ChamDiem int null ); create table CHUKYNANGSUAT( 	ID INT IDENTITY(1,1) PRIMARY KEY not null, 	Chuan DECIMAL(6,2) NULL, 	ThucTe DECIMAL(6,2) NULL, 	ChenhLech DECIMAL(6,2) NULL, 	LyDoLech nvarchar(255) null, 	BienPhap nvarchar(255) null, 	ChamDiem int null ); create table TRONGLUONG( 	ID INT IDENTITY(1,1) PRIMARY KEY not null, 	Chuan DECIMAL(6,2) NULL, 	ThucTe DECIMAL(6,2) NULL, 	ChenhLech DECIMAL(6,2) NULL, 	LyDoLech nvarchar(255) null, 	BienPhap nvarchar(255) null, 	ChamDiem int null ); create table PHEPHAM( 	ID INT IDENTITY(1,1) PRIMARY KEY not null, 	DinhMuc int null,			 	SLPheXa int null,			 	SoShotPX int null,			 	SoShotPRH int null,			 	Tong int null,				 	ChenhLech int null,			 	LyDoLech nvarchar(255) null, 	BienPhap nvarchar(255) null, 	ChamDiem int null			 ); create table NGUYENLIEU( 	ID INT IDENTITY(1,1) PRIMARY KEY not null, 	TenNguyenLieu nvarchar(200) null, 	TiLePheTron decimal(5,2) null ); CREATE TABLE [dbo].[MayKhuon]( 	[Id] [bigint] IDENTITY(1,1) NOT NULL, 	[Code] [varchar](255) NULL, 	[Equipment] [varchar](15) NULL, 	[MaModel] [nvarchar](20) NULL, 	[MaTaiSan] [varchar](15) NULL, 	[TenMayKhuon] [nvarchar](max) NULL, 	[TenNganCuaMay] [nvarchar](max) NULL, 	[ViTri] [varchar](250) NULL, 	[MaLoaiMay] [varchar](250) NULL, 	[LoaiMay] [nvarchar](255) NULL, 	[DangSuDung] [int] NULL, 	[NgayTao] [datetime] NULL, 	[WorkCenter] [nvarchar](50) NULL, 	[KhuVuc] [nvarchar](250) NULL,  CONSTRAINT [PK_MayKhuon] PRIMARY KEY CLUSTERED (Id ASC) 		);  		-- KHUONEP.MaTrongLuong -> TRONGLUONG.ID ALTER TABLE KHUONEP ADD CONSTRAINT FK_KHUONEP_TRONGLUONG FOREIGN KEY (MaTrongLuong) REFERENCES TRONGLUONG(ID);  -- KHUONEP.MaThoiGian -> THOIGIANLENKHUON.ID ALTER TABLE KHUONEP ADD CONSTRAINT FK_KHUONEP_THOIGIAN FOREIGN KEY (MaThoiGian) REFERENCES THOIGIANLENKHUON(ID);  -- KHUONEP.MaCKNS -> CHUKYNANGSUAT.ID ALTER TABLE KHUONEP ADD CONSTRAINT FK_KHUONEP_CHUKYNANGSUAT FOREIGN KEY (MaCKNS) REFERENCES CHUKYNANGSUAT(ID);  -- KHUONEP.MaMayKhuon -> MayKhuon.Id ALTER TABLE KHUONEP ADD CONSTRAINT FK_KHUONEP_MAYKHUON FOREIGN KEY (MaMayKhuon) REFERENCES MayKhuon(Id);  -- KHUONEP.MaNguyenLieu -> NGUYENLIEU.ID ALTER TABLE KHUONEP ADD CONSTRAINT FK_KHUONEP_NGUYENLIEU FOREIGN KEY (MaNguyenLieu) REFERENCES NGUYENLIEU(ID);  -- KHUONEP.MaPhePham -> PHEPHAM.ID ALTER TABLE KHUONEP ADD CONSTRAINT FK_KHUONEP_PHEPHAM FOREIGN KEY (MaPhePham) REFERENCES PHEPHAM(ID);  -- KHUONGEP.MaKhuon -> MayKhuon.Id alter table KHUONEP ADD CONSTRAINT FK_KHUONEP_KHUON FOREIGN KEY (MaKhuon) REFERENCES MayKhuon(Id)   -- Dữ liệu mẫu SET IDENTITY_INSERT [dbo].[MayKhuon] ON  insert into MayKhuon ([Id],	[Code],					[Equipment],	[MaModel],		[MaTaiSan],		[TenMayKhuon],						[TenNganCuaMay],		[ViTri],	[MaLoaiMay] ,	[LoaiMay],				[DangSuDung],	[NgayTao] ,										[WorkCenter],	[KhuVuc])  VALUES  (1,		N'250720114136643',		N'10000000',	N'150010001',	N'114001716',	N'K.Hũ Bio 1kg 1cav K1',			N'HŨ BIO 1KG',			N'DT',		NULL,			N'Khuôn ép',			0,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (2,		N'250720114136644',		N'10000001',	N'150010002',	N'114001730',	N'K.Hũ container 1oz 8cav K1',		N'HŨ CONTAINER 1OZ',	N'DT',		NULL,			N'Khuôn ép',			1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (3,		N'250720114136659',		N'10000002',	N'150010003',	N'114001717',	N'K.Hũ container 12oz 2cav K1',		N'HŨ CONTAINER 12OZ',	N'DT',		NULL,			N'Khuôn ép',			1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (4,		N'250720114136674',		N'10000004',	N'150010005',	N'114001719',	N'K.Hũ container 24oz 2cav K1',		N'HŨ CONTAINER 24OZ',	N'DT',		NULL,			N'Khuôn ép',			1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (5,		N'250720114136689',		N'10000008',	N'150010009',	N'114001728',	N'K.Hũ container 3oz 6cav K1',		N'HŨ CONTAINER 3OZ',	N'DT',		NULL,			N'Khuôn ép',			1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (6,		N'250720114313534',		N'30000414',	NULL,			NULL,			N'INSANG03',						NULL,					N'BD',		NULL,			N'Máy công đoạn phụ',	1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (7,		N'250720114313535',		N'30000415',	NULL,			NULL,			N'INSANG01',						NULL,					N'BD',		NULL,			N'Máy công đoạn phụ',	1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (8,		N'250720114315724',		N'30000557',	NULL,			N'104000156',	N'CLF180-70',						NULL,					N'DTLA',	NULL,			N'Máy ép PP',			1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (9,		N'250720114315740',		N'30000558',	NULL,			N'104000157',	N'CLF180-71',						NULL,					N'DTLA',	NULL,			N'Máy ép PP',			1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL), (10,	N'250720114315754',		N'30000567',	NULL,			N'163000053',	N'AKEI-08',							NULL,					N'DT',		NULL,			N'Máy thổi HD',			1,				CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			NULL)  INSERT INTO NGUYENLIEU (TenNguyenLieu, TiLePheTron) VALUES (N'ABS trắng',           2.50), (N'PP đen',              1.80), (N'PC trong suốt',       0.50), (N'PA6 GF30',            3.20), (N'PVC cứng',            0.80), (N'HIPS tái sinh',       4.50), (N'PE nguyên sinh',      0.30), (N'POM trắng',           1.20), (N'ABS tái sinh',        5.00), (N'PP trong',            0.75);  
+use master
+
+create database ProjectDB
+
+use ProjectDB
+
+create table KHUONEP(
+	ID INT IDENTITY(1,1) primary key NOT NULL,
+	HotRunner int null,		
+	MaTrongLuong int null,	
+	MaThoiGian int null,	
+	MaCKNS int null,		
+	MaMayKhuon bigint null,	
+	MaKhuon bigint null,	
+	MayLanhHD int null,		
+	NhietDoML int null,		
+	TayRobotHD int null,	
+	CamBienTRB int null,	
+	TinHieuTRB int null,	
+	SoNVLenKhuon int null,	
+	SoNVDungMay int null,	
+	MaNguyenLieu int null,		
+	TenKCS nvarchar(10) null,	
+	DiemTB DECIMAL(4,2) NULL,
+	XepLoai nvarchar(10) null,
+	MaPhePham int null,	
+);
+
+create table THOIGIANLENKHUON(
+	ID INT IDENTITY(1,1) PRIMARY KEY not null,
+	Chuan decimal(5,2) null,
+	ThucTe decimal(5,2) null,
+	ChenhLech decimal(5,2) null,
+	LyDoLech nvarchar(255) null,
+	BienPhap nvarchar(255) null,
+	ChamDiem int null
+);
+create table CHUKYNANGSUAT(
+	ID INT IDENTITY(1,1) PRIMARY KEY not null,
+	Chuan DECIMAL(6,2) NULL,
+	ThucTe DECIMAL(6,2) NULL,
+	ChenhLech DECIMAL(6,2) NULL,
+	LyDoLech nvarchar(255) null,
+	BienPhap nvarchar(255) null,
+	ChamDiem int null
+);
+create table TRONGLUONG(
+	ID INT IDENTITY(1,1) PRIMARY KEY not null,
+	Chuan DECIMAL(6,2) NULL,
+	ThucTe DECIMAL(6,2) NULL,
+	ChenhLech DECIMAL(6,2) NULL,
+	LyDoLech nvarchar(255) null,
+	BienPhap nvarchar(255) null,
+	ChamDiem int null
+);
+create table PHEPHAM(
+	ID INT IDENTITY(1,1) PRIMARY KEY not null,
+	DinhMuc int null,			
+	SLPheXa int null,			
+	SoShotPX int null,			
+	SoShotPRH int null,			
+	Tong int null,				
+	ChenhLech int null,			
+	LyDoLech nvarchar(255) null,
+	BienPhap nvarchar(255) null,
+	ChamDiem int null			
+);
+create table NGUYENLIEU(
+	ID INT IDENTITY(1,1) PRIMARY KEY not null,
+	TenNguyenLieu nvarchar(200) null,
+	TiLePheTron decimal(5,2) null
+);
+CREATE TABLE [dbo].[MayKhuon](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Code] [varchar](255) NULL,
+	[Equipment] [varchar](15) NULL,
+	[MaModel] [nvarchar](20) NULL,
+	[MaTaiSan] [varchar](15) NULL,
+	[TenMayKhuon] [nvarchar](max) NULL,
+	[TenNganCuaMay] [nvarchar](max) NULL,
+	[ViTri] [varchar](250) NULL,
+	[MaLoaiMay] [varchar](250) NULL,
+	[LoaiMay] [nvarchar](255) NULL,
+	[DangSuDung] [int] NULL,
+	[NgayTao] [datetime] NULL,
+	[WorkCenter] [nvarchar](50) NULL,
+	[KhuVuc] [nvarchar](250) NULL,
+ CONSTRAINT [PK_MayKhuon] PRIMARY KEY CLUSTERED (Id ASC)
+		);
+
+ALTER TABLE KHUONEP
+ADD CONSTRAINT FK_KHUONEP_TRONGLUONG FOREIGN KEY (MaTrongLuong) REFERENCES TRONGLUONG(ID);
+
+ALTER TABLE KHUONEP
+ADD CONSTRAINT FK_KHUONEP_THOIGIAN FOREIGN KEY (MaThoiGian) REFERENCES THOIGIANLENKHUON(ID);
+
+ALTER TABLE KHUONEP
+ADD CONSTRAINT FK_KHUONEP_CHUKYNANGSUAT FOREIGN KEY (MaCKNS) REFERENCES CHUKYNANGSUAT(ID);
+
+ALTER TABLE KHUONEP
+ADD CONSTRAINT FK_KHUONEP_MAYKHUON FOREIGN KEY (MaMayKhuon) REFERENCES MayKhuon(Id);
+
+ALTER TABLE KHUONEP
+ADD CONSTRAINT FK_KHUONEP_NGUYENLIEU FOREIGN KEY (MaNguyenLieu) REFERENCES NGUYENLIEU(ID);
+
+ALTER TABLE KHUONEP
+ADD CONSTRAINT FK_KHUONEP_PHEPHAM FOREIGN KEY (MaPhePham) REFERENCES PHEPHAM(ID);
+
+alter table KHUONEP
+ADD CONSTRAINT FK_KHUONEP_KHUON FOREIGN KEY (MaKhuon) REFERENCES MayKhuon(Id)
+
+-- Dữ liệu mẫu
+SET IDENTITY_INSERT [dbo].[MayKhuon] ON 
+insert into MayKhuon
+([Id],	[Code],					      [Equipment],	[MaModel],		[MaTaiSan],		[TenMayKhuon],						        [TenNganCuaMay],		    [ViTri],	[MaLoaiMay] ,	[LoaiMay],				    [DangSuDung],	[NgayTao] ,										                [WorkCenter],	[KhuVuc]) 
+VALUES 
+(1,		  N'250720114136643',		N'10000000',	N'150010001',	N'114001716',	N'K.Hũ Bio 1kg 1cav K1',			    N'HŨ BIO 1KG',			    N'DT',		NULL,			    N'Khuôn ép',			    0,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(2,		  N'250720114136644',		N'10000001',	N'150010002',	N'114001730',	N'K.Hũ container 1oz 8cav K1',		N'HŨ CONTAINER 1OZ',	  N'DT',		NULL,			    N'Khuôn ép',			    1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(3,		  N'250720114136659',		N'10000002',	N'150010003',	N'114001717',	N'K.Hũ container 12oz 2cav K1',		N'HŨ CONTAINER 12OZ',	  N'DT',		NULL,			    N'Khuôn ép',			    1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(4,		  N'250720114136674',		N'10000004',	N'150010005',	N'114001719',	N'K.Hũ container 24oz 2cav K1',		N'HŨ CONTAINER 24OZ',	  N'DT',		NULL,			    N'Khuôn ép',			    1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(5,		  N'250720114136689',		N'10000008',	N'150010009',	N'114001728',	N'K.Hũ container 3oz 6cav K1',		N'HŨ CONTAINER 3OZ',	  N'DT',		NULL,			    N'Khuôn ép',			    1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(6,		  N'250720114313534',		N'30000414',	NULL,			    NULL,			    N'INSANG03',						          NULL,					          N'BD',		NULL,			    N'Máy công đoạn phụ',	1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(7,		  N'250720114313535',		N'30000415',	NULL,			    NULL,			    N'INSANG01',						          NULL,					          N'BD',		NULL,			    N'Máy công đoạn phụ',	1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(8,		  N'250720114315724',		N'30000557',	NULL,			    N'104000156',	N'CLF180-70',						          NULL,					          N'DTLA',	NULL,			    N'Máy ép PP',			    1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(9,		  N'250720114315740',		N'30000558',	NULL,			    N'104000157',	N'CLF180-71',						          NULL,					          N'DTLA',	NULL,			    N'Máy ép PP',			    1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL),
+(10,	  N'250720114315754',		N'30000567',	NULL,			    N'163000053',	N'AKEI-08',							          NULL,					          N'DT',		NULL,			    N'Máy thổi HD',			  1,				    CAST(N'2025-07-20T11:41:35.840' AS DateTime),	NULL,			    NULL)
+
+INSERT INTO NGUYENLIEU (TenNguyenLieu, TiLePheTron)
+VALUES
+(N'ABS trắng',           2.50),
+(N'PP đen',              1.80),
+(N'PC trong suốt',       0.50),
+(N'PA6 GF30',            3.20),
+(N'PVC cứng',            0.80),
+(N'HIPS tái sinh',       4.50),
+(N'PE nguyên sinh',      0.30),
+(N'POM trắng',           1.20),
+(N'ABS tái sinh',        5.00),
+(N'PP trong',            0.75);
+
+--- CẬP NHẬT LẠI DB ---
+
+ALTER TABLE KHUONEP
+DROP CONSTRAINT FK_KHUONEP_KHUON;
+
+ALTER TABLE KHUONEP
+DROP COLUMN MaKhuon
+
+ALTER TABLE KHUONEP
+ADD MaKhuonLen bigint null
+
+ALTER TABLE KHUONEP
+ADD MaKhuonXuong bigint null
+
+ALTER TABLE KHUONEP
+ADD CONSTRAINT FK_KHUONEP_KHUONLEN FOREIGN KEY (MaKhuonLen) REFERENCES MayKhuon(Id);
+
+ALTER TABLE KHUONEP
+ADD CONSTRAINT FK_KHUONEP_KHUONXUONG FOREIGN KEY (MaKhuonXuong) REFERENCES MayKhuon(Id);
+
+EXEC sp_help 'KHUONEP';
